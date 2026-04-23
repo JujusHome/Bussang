@@ -377,9 +377,7 @@ textarea{resize:vertical;min-height:65px}
           <option value="Entretien">Entretien</option>
           <option value="Autre">Autre</option>
         </select>
-        <select id="chg-yr" onchange="renderCharges()">
-          <option value="2025">2025</option><option value="2024">2024</option>
-        </select>
+        <select id="chg-yr" onchange="renderCharges()"></select>
       </div>
       <div class="stats-grid-3" id="chg-owner-stats"></div>
       <div class="card" style="padding:0;">
@@ -395,7 +393,7 @@ textarea{resize:vertical;min-height:65px}
     <div class="view" id="view-bilan">
       <div class="filter-bar">
         <label style="margin:0;color:var(--tx2);font-size:13px;">Année :</label>
-        <select id="bil-yr" onchange="renderBilan()" style="width:auto;"><option value="2025">2025</option><option value="2024">2024</option></select>
+        <select id="bil-yr" onchange="renderBilan()" style="width:auto;"></select>
       </div>
       <div class="stats-grid-3" id="bil-cards"></div>
       <div class="g2">
@@ -527,40 +525,53 @@ let cfg = {
 
 // ===== DONNÉES =====
 let sejours = [
-  {id:1,owner:'Jérémy',tenant:'',checkin:'2025-01-01',checkout:'2025-01-05',guests:['Sophie Renard','Lucas Renard'],notes:'Nouvel an',elec:150,elec_status:'non_remboursé'},
-  {id:2,owner:'Julien',tenant:'',checkin:'2025-05-09',checkout:'2025-05-12',guests:['Isabelle Petit'],notes:"Pont Ascension",elec:42,elec_status:'remboursé'},
-  {id:3,owner:'Manu',tenant:'',checkin:'2025-04-18',checkout:'2025-04-22',guests:['Céline Dupuis','Tom Dupuis'],notes:'',elec:68,elec_status:'non_remboursé'},
-  {id:4,owner:'Jérémy',tenant:'',checkin:'2025-07-04',checkout:'2025-07-11',guests:['Sophie Renard','Arthur Renard'],notes:'Vacances été',elec:0,elec_status:'non_remboursé'},
-  {id:5,owner:'Julien',tenant:'',checkin:'2025-08-01',checkout:'2025-08-10',guests:['Isabelle Petit','Théo Petit'],notes:'',elec:0,elec_status:'non_remboursé'},
-  {id:6,owner:'location',tenant:'Famille Martin',checkin:'2025-07-14',checkout:'2025-07-21',guests:['Martin Paul','Martin Anne','Martin Lucie'],notes:'Location 800€',elec:0,elec_status:'non_remboursé'},
+  {id:1,owner:'Jérémy',tenant:'',checkin:'2026-01-02',checkout:'2026-01-06',guests:['Sophie Renard','Lucas Renard'],notes:'Nouvel an',elec:150,elec_status:'non_remboursé'},
+  {id:2,owner:'Julien',tenant:'',checkin:'2026-02-14',checkout:'2026-02-17',guests:['Isabelle Petit'],notes:'Week-end Saint-Valentin',elec:45,elec_status:'remboursé'},
+  {id:3,owner:'Manu',tenant:'',checkin:'2026-04-03',checkout:'2026-04-07',guests:['Céline Dupuis','Tom Dupuis'],notes:'Vacances Pâques',elec:68,elec_status:'non_remboursé'},
+  {id:4,owner:'Jérémy',tenant:'',checkin:'2026-07-04',checkout:'2026-07-11',guests:['Sophie Renard','Arthur Renard'],notes:'Vacances été',elec:0,elec_status:'non_remboursé'},
+  {id:5,owner:'Julien',tenant:'',checkin:'2026-08-01',checkout:'2026-08-10',guests:['Isabelle Petit','Théo Petit'],notes:'',elec:0,elec_status:'non_remboursé'},
+  {id:6,owner:'location',tenant:'Famille Martin',checkin:'2026-07-14',checkout:'2026-07-21',guests:['Martin Paul','Martin Anne','Martin Lucie'],notes:'Location 800€',elec:0,elec_status:'non_remboursé'},
 ];
 
 let charges = [
-  {id:1,type:'Électricité',label:'Mensualité EDF — Janv.',amount:80,date:'2025-01-05',paidby:'compte',notes:''},
-  {id:2,type:'Électricité',label:'Mensualité EDF — Fév.',amount:80,date:'2025-02-05',paidby:'compte',notes:''},
-  {id:3,type:'Électricité',label:'Mensualité EDF — Mars',amount:80,date:'2025-03-05',paidby:'compte',notes:''},
-  {id:4,type:'Électricité',label:'Mensualité EDF — Avr.',amount:80,date:'2025-04-05',paidby:'compte',notes:''},
-  {id:5,type:'Électricité',label:'Mensualité EDF — Mai',amount:80,date:'2025-05-05',paidby:'compte',notes:''},
-  {id:6,type:'Crédit immobilier',label:'Crédit — Janv.',amount:657.73,date:'2025-01-05',paidby:'compte',notes:''},
-  {id:7,type:'Crédit immobilier',label:'Crédit — Fév.',amount:657.73,date:'2025-02-05',paidby:'compte',notes:''},
-  {id:8,type:'Assurance',label:'Assurance — Janv.',amount:45.56,date:'2025-01-05',paidby:'compte',notes:''},
-  {id:9,type:'Assurance',label:'Assurance — Fév.',amount:45.56,date:'2025-02-05',paidby:'compte',notes:''},
-  {id:10,type:'Frais bancaires',label:'Frais bancaires — Janv.',amount:12,date:'2025-01-05',paidby:'compte',notes:''},
-  {id:11,type:'Entretien',label:'Révision chaudière',amount:180,date:'2025-03-10',paidby:'Manu',notes:'Plombier Vosges'},
-  {id:12,type:'Autre',label:'Linge de lit x4',amount:220,date:'2025-04-02',paidby:'Julien',notes:''},
+  {id:1,type:'Électricité',label:'Mensualité EDF — Janv.',amount:80,date:'2026-01-05',paidby:'compte',notes:''},
+  {id:2,type:'Électricité',label:'Mensualité EDF — Fév.',amount:80,date:'2026-02-05',paidby:'compte',notes:''},
+  {id:3,type:'Électricité',label:'Mensualité EDF — Mars',amount:80,date:'2026-03-05',paidby:'compte',notes:''},
+  {id:4,type:'Électricité',label:'Mensualité EDF — Avr.',amount:80,date:'2026-04-05',paidby:'compte',notes:''},
+  {id:5,type:'Crédit immobilier',label:'Crédit — Janv.',amount:657.73,date:'2026-01-05',paidby:'compte',notes:''},
+  {id:6,type:'Crédit immobilier',label:'Crédit — Fév.',amount:657.73,date:'2026-02-05',paidby:'compte',notes:''},
+  {id:7,type:'Crédit immobilier',label:'Crédit — Mars',amount:657.73,date:'2026-03-05',paidby:'compte',notes:''},
+  {id:8,type:'Crédit immobilier',label:'Crédit — Avr.',amount:657.73,date:'2026-04-05',paidby:'compte',notes:''},
+  {id:9,type:'Assurance',label:'Assurance — Janv.',amount:45.56,date:'2026-01-05',paidby:'compte',notes:''},
+  {id:10,type:'Assurance',label:'Assurance — Fév.',amount:45.56,date:'2026-02-05',paidby:'compte',notes:''},
+  {id:11,type:'Assurance',label:'Assurance — Mars',amount:45.56,date:'2026-03-05',paidby:'compte',notes:''},
+  {id:12,type:'Assurance',label:'Assurance — Avr.',amount:45.56,date:'2026-04-05',paidby:'compte',notes:''},
+  {id:13,type:'Frais bancaires',label:'Frais bancaires — Janv.',amount:12,date:'2026-01-05',paidby:'compte',notes:''},
+  {id:14,type:'Frais bancaires',label:'Frais bancaires — Fév.',amount:12,date:'2026-02-05',paidby:'compte',notes:''},
+  {id:15,type:'Frais bancaires',label:'Frais bancaires — Mars',amount:12,date:'2026-03-05',paidby:'compte',notes:''},
+  {id:16,type:'Frais bancaires',label:'Frais bancaires — Avr.',amount:12,date:'2026-04-05',paidby:'compte',notes:''},
+  {id:17,type:'Entretien',label:'Révision chaudière',amount:180,date:'2026-03-10',paidby:'Manu',notes:'Plombier Vosges'},
+  {id:18,type:'Autre',label:'Linge de lit x4',amount:220,date:'2026-04-02',paidby:'Julien',notes:''},
 ];
 
 let apports = [
-  {id:1,owner:'Jérémy',amount:250,date:'2025-01-01',type:'mensualité',notes:'Mensualité janvier'},
-  {id:2,owner:'Julien',amount:250,date:'2025-01-01',type:'mensualité',notes:'Mensualité janvier'},
-  {id:3,owner:'Manu',amount:250,date:'2025-01-01',type:'mensualité',notes:'Mensualité janvier'},
-  {id:4,owner:'Jérémy',amount:250,date:'2025-02-01',type:'mensualité',notes:'Mensualité février'},
-  {id:5,owner:'Julien',amount:250,date:'2025-02-01',type:'mensualité',notes:'Mensualité février'},
-  {id:6,owner:'Manu',amount:250,date:'2025-02-01',type:'mensualité',notes:'Mensualité février'},
-  {id:7,owner:'Julien',amount:42,date:'2025-05-14',type:'supplément',notes:'Remboursement conso élec séjour mai'},
+  {id:1,owner:'Jérémy',amount:250,date:'2026-01-01',type:'mensualité',notes:'Mensualité janvier'},
+  {id:2,owner:'Julien',amount:250,date:'2026-01-01',type:'mensualité',notes:'Mensualité janvier'},
+  {id:3,owner:'Manu',amount:250,date:'2026-01-01',type:'mensualité',notes:'Mensualité janvier'},
+  {id:4,owner:'Jérémy',amount:250,date:'2026-02-01',type:'mensualité',notes:'Mensualité février'},
+  {id:5,owner:'Julien',amount:250,date:'2026-02-01',type:'mensualité',notes:'Mensualité février'},
+  {id:6,owner:'Manu',amount:250,date:'2026-02-01',type:'mensualité',notes:'Mensualité février'},
+  {id:7,owner:'Jérémy',amount:250,date:'2026-03-01',type:'mensualité',notes:'Mensualité mars'},
+  {id:8,owner:'Julien',amount:250,date:'2026-03-01',type:'mensualité',notes:'Mensualité mars'},
+  {id:9,owner:'Manu',amount:250,date:'2026-03-01',type:'mensualité',notes:'Mensualité mars'},
+  {id:10,owner:'Jérémy',amount:250,date:'2026-04-01',type:'mensualité',notes:'Mensualité avril'},
+  {id:11,owner:'Julien',amount:250,date:'2026-04-01',type:'mensualité',notes:'Mensualité avril'},
+  {id:12,owner:'Manu',amount:250,date:'2026-04-01',type:'mensualité',notes:'Mensualité avril'},
+  {id:13,owner:'Julien',amount:45,date:'2026-02-18',type:'supplément',notes:'Remboursement conso élec séjour fév.'},
 ];
 
-let currentMonth = new Date(2025,6,1);
+let currentMonth = new Date(2026,3,1); // avril 2026 (mois en cours)
+const CURRENT_YEAR = new Date().getFullYear();
 let editingSejId = null, currentDetId = null;
 let sej_filter = '', sej_owner_filter = '', chg_type_filter = '';
 
@@ -602,7 +613,7 @@ function goTo(name, el) {
 
 // ===== DASHBOARD =====
 function renderDashboard() {
-  const yr='2025';
+  const yr = String(CURRENT_YEAR);
   const ys=sejours.filter(s=>s.checkin.startsWith(yr));
   const solde=calcSolde();
   const pending=calcElecPending();
@@ -610,7 +621,7 @@ function renderDashboard() {
 
   document.getElementById('dash-stats').innerHTML=`
     <div class="stat-card"><div class="stat-lbl">Solde compte</div><div class="stat-val" style="color:${solde>=0?'var(--ok)':'var(--err)'};">${solde.toFixed(2)} €</div><div class="stat-sub">compte commun</div></div>
-    <div class="stat-card"><div class="stat-lbl">Séjours 2025</div><div class="stat-val">${ys.length}</div><div class="stat-sub">${ys.filter(s=>s.owner==='location').length} location(s)</div></div>
+    <div class="stat-card"><div class="stat-lbl">Séjours ${yr}</div><div class="stat-val">${ys.length}</div><div class="stat-sub">${ys.filter(s=>s.owner==='location').length} location(s)</div></div>
     <div class="stat-card"><div class="stat-lbl">Élec à rembourser</div><div class="stat-val" style="color:${totalPending>0?'var(--warn)':'var(--ok)'};">${totalPending.toFixed(2)} €</div><div class="stat-sub">${pending.length} séjour${pending.length>1?'s':''} en attente</div></div>
     <div class="stat-card"><div class="stat-lbl">Mensualité / pers.</div><div class="stat-val">${cfg.mensualite_proprietaire} €</div><div class="stat-sub">contribution mensuelle</div></div>
   `;
@@ -1014,6 +1025,23 @@ function typeIcon(t){return{Électricité:'⚡',Eau:'💧',Entretien:'🔧','Cr�
 function ownerScClass(o){return{Jérémy:'sc-j',Julien:'sc-u',Manu:'sc-m'}[o]||'';}
 
 // ===== INIT =====
+function populateYearSelectors() {
+  // Collecter toutes les années présentes dans les données + année courante + 2 suivantes
+  const yearsInData = new Set();
+  sejours.forEach(s => yearsInData.add(s.checkin.substring(0,4)));
+  charges.forEach(c => yearsInData.add(c.date.substring(0,4)));
+  apports.forEach(a => yearsInData.add(a.date.substring(0,4)));
+  const yr = CURRENT_YEAR;
+  [yr-1, yr, yr+1, yr+2].forEach(y => yearsInData.add(String(y)));
+  const sorted = [...yearsInData].sort((a,b)=>b-a);
+  ['chg-yr','bil-yr'].forEach(id => {
+    const sel = document.getElementById(id);
+    if(!sel) return;
+    sel.innerHTML = sorted.map(y=>`<option value="${y}"${y===String(yr)?'selected':''}>${y}</option>`).join('');
+  });
+}
+
+populateYearSelectors();
 renderDashboard();
 </script>
 </body>

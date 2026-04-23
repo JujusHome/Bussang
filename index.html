@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestion Location Vacances</title>
+<title>Maison BUSSANG — Gestion copropriété</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -24,43 +24,42 @@
     --c-warning-bg: #FEF3C7;
     --c-danger: #B91C1C;
     --c-danger-bg: #FEE2E2;
-    --c-pending: #6B21A8;
-    --c-pending-bg: #F3E8FF;
+    --c-jeremy: #0F766E;
+    --c-jeremy-bg: #CCFBF1;
+    --c-julien: #1D4ED8;
+    --c-julien-bg: #DBEAFE;
+    --c-manu: #7C3AED;
+    --c-manu-bg: #EDE9FE;
     --radius: 10px;
     --radius-lg: 14px;
-    --shadow: 0 1px 3px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
-    --shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow: 0 1px 3px rgba(0,0,0,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--c-bg); color: var(--c-text); font-size: 14px; line-height: 1.5; min-height: 100vh; }
   h1,h2,h3,h4 { font-family: 'Syne', sans-serif; }
-
-  /* LAYOUT */
   .app { display: flex; min-height: 100vh; }
-  .sidebar { width: 220px; background: var(--c-surface); border-right: 1px solid var(--c-border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
-  .main { margin-left: 220px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+  .sidebar { width: 224px; background: var(--c-surface); border-right: 1px solid var(--c-border); display: flex; flex-direction: column; position: fixed; top: 0; left: 0; height: 100vh; z-index: 100; }
+  .main { margin-left: 224px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
   .topbar { background: var(--c-surface); border-bottom: 1px solid var(--c-border); padding: 0 28px; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 50; }
   .content { padding: 28px; flex: 1; }
-
-  /* SIDEBAR */
-  .logo { padding: 20px 20px 16px; border-bottom: 1px solid var(--c-border); }
-  .logo-text { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700; color: var(--c-text); letter-spacing: -0.3px; }
-  .logo-sub { font-size: 11px; color: var(--c-text3); letter-spacing: 0.5px; text-transform: uppercase; margin-top: 2px; }
-  .nav { padding: 12px 0; flex: 1; }
-  .nav-section { padding: 0 12px 8px; }
+  .logo { padding: 18px 16px 14px; border-bottom: 1px solid var(--c-border); }
+  .logo-text { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--c-text); }
+  .logo-sub { font-size: 11px; color: var(--c-text3); letter-spacing: 0.4px; text-transform: uppercase; margin-top: 2px; }
+  .nav { padding: 10px 0; flex: 1; overflow-y: auto; }
+  .nav-section { padding: 0 10px 6px; }
   .nav-label { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.8px; color: var(--c-text3); padding: 8px 8px 4px; }
-  .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: 8px; cursor: pointer; color: var(--c-text2); font-size: 13.5px; font-weight: 400; transition: all 0.15s; text-decoration: none; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; cursor: pointer; color: var(--c-text2); font-size: 13px; font-weight: 400; transition: all 0.15s; }
   .nav-item:hover { background: var(--c-surface2); color: var(--c-text); }
   .nav-item.active { background: var(--c-accent-light); color: var(--c-accent); font-weight: 500; }
-  .nav-icon { width: 18px; height: 18px; flex-shrink: 0; opacity: 0.7; }
+  .nav-icon { width: 17px; height: 17px; flex-shrink: 0; opacity: 0.65; }
   .nav-item.active .nav-icon { opacity: 1; }
-  .sidebar-footer { padding: 16px; border-top: 1px solid var(--c-border); }
-  .prop-badge { background: var(--c-accent-light); border-radius: 8px; padding: 10px 12px; display: flex; align-items: center; gap: 10px; }
-  .prop-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--c-accent); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .prop-name { font-weight: 600; font-size: 12.5px; color: var(--c-accent-text); }
-  .prop-type { font-size: 11px; color: var(--c-accent); opacity: 0.7; }
-
-  /* TOPBAR */
+  .sidebar-footer { padding: 14px; border-top: 1px solid var(--c-border); }
+  .owners-row { display: flex; gap: 6px; margin-top: 8px; }
+  .owner-pill { flex: 1; text-align: center; padding: 6px 4px; border-radius: 8px; font-size: 11px; font-weight: 600; }
+  .owner-jeremy { background: var(--c-jeremy-bg); color: var(--c-jeremy); }
+  .owner-julien { background: var(--c-julien-bg); color: var(--c-julien); }
+  .owner-manu { background: var(--c-manu-bg); color: var(--c-manu); }
+  .owners-label { font-size: 11px; color: var(--c-text3); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 500; }
   .page-title { font-family: 'Syne', sans-serif; font-size: 17px; font-weight: 600; }
   .topbar-actions { display: flex; align-items: center; gap: 10px; }
   .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; border: none; transition: all 0.15s; font-family: 'DM Sans', sans-serif; }
@@ -72,314 +71,210 @@
   .btn-ghost:hover { background: var(--c-surface2); }
   .btn-sm { padding: 5px 10px; font-size: 12px; }
   .btn-danger { background: var(--c-danger-bg); color: var(--c-danger); }
-  .btn-danger:hover { background: #fecaca; }
-
-  /* VIEWS */
+  .btn-elec { background: #FEF9C3; color: #854D0E; border: 1px solid #FDE68A; }
+  .btn-elec:hover { background: #FEF08A; }
   .view { display: none; }
   .view.active { display: block; }
-
-  /* CARDS */
   .card { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius-lg); padding: 20px; box-shadow: var(--shadow); }
   .card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
   .card-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; }
-
-  /* STATS GRID */
   .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  .stats-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
   .stat-card { background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius-lg); padding: 18px 20px; }
   .stat-label { font-size: 12px; color: var(--c-text3); text-transform: uppercase; letter-spacing: 0.5px; font-weight: 500; margin-bottom: 8px; }
   .stat-value { font-family: 'Syne', sans-serif; font-size: 26px; font-weight: 700; color: var(--c-text); line-height: 1; }
   .stat-sub { font-size: 12px; color: var(--c-text3); margin-top: 6px; }
-  .stat-trend { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: 500; padding: 2px 6px; border-radius: 4px; margin-top: 6px; }
-  .trend-up { color: var(--c-success); background: var(--c-success-bg); }
-  .trend-down { color: var(--c-danger); background: var(--c-danger-bg); }
-
-  /* BADGES */
   .badge { display: inline-flex; align-items: center; padding: 3px 8px; border-radius: 5px; font-size: 11.5px; font-weight: 500; }
   .badge-success { background: var(--c-success-bg); color: var(--c-success); }
   .badge-warning { background: var(--c-warning-bg); color: var(--c-warning); }
   .badge-danger { background: var(--c-danger-bg); color: var(--c-danger); }
-  .badge-pending { background: var(--c-pending-bg); color: var(--c-pending); }
   .badge-neutral { background: var(--c-surface2); color: var(--c-text2); }
   .badge-accent { background: var(--c-accent-light); color: var(--c-accent-text); }
-
-  /* CALENDAR */
+  .badge-elec { background: #FEF9C3; color: #854D0E; }
+  .owner-tag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 5px; font-size: 12px; font-weight: 600; }
+  .tag-jeremy { background: var(--c-jeremy-bg); color: var(--c-jeremy); }
+  .tag-julien { background: var(--c-julien-bg); color: var(--c-julien); }
+  .tag-manu { background: var(--c-manu-bg); color: var(--c-manu); }
   .calendar-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .cal-nav { display: flex; align-items: center; gap: 8px; }
-  .cal-month { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600; min-width: 180px; }
+  .cal-month { font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 600; min-width: 200px; }
   .cal-btn { width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--c-border); background: var(--c-surface); cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--c-text2); transition: all 0.15s; }
   .cal-btn:hover { background: var(--c-surface2); }
   .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 1px; background: var(--c-border); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--c-border); }
   .cal-day-header { background: var(--c-surface2); padding: 10px; text-align: center; font-size: 12px; font-weight: 600; color: var(--c-text3); text-transform: uppercase; letter-spacing: 0.5px; }
-  .cal-day { background: var(--c-surface); min-height: 90px; padding: 8px; cursor: pointer; transition: background 0.1s; position: relative; }
+  .cal-day { background: var(--c-surface); min-height: 86px; padding: 7px; cursor: pointer; transition: background 0.1s; }
   .cal-day:hover { background: var(--c-surface2); }
-  .cal-day.other-month .cal-date { color: var(--c-text3); opacity: 0.5; }
+  .cal-day.other-month .cal-date { opacity: 0.3; }
   .cal-day.today .cal-date { background: var(--c-accent); color: white; border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; }
   .cal-date { font-size: 13px; font-weight: 500; margin-bottom: 4px; display: inline-block; }
-  .cal-booking { border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: 500; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
-  .cal-booking.airbnb { background: #FFE4D6; color: #C63A00; }
-  .cal-booking.booking { background: #DBEAFE; color: #1E40AF; }
-  .cal-booking.direct { background: #D1FAE5; color: #065F46; }
-  .cal-booking.blocked { background: var(--c-surface2); color: var(--c-text3); }
-
-  /* TABLE */
+  .cal-evt { border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: 500; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
+  .cal-evt.jeremy { background: var(--c-jeremy-bg); color: var(--c-jeremy); }
+  .cal-evt.julien { background: var(--c-julien-bg); color: var(--c-julien); }
+  .cal-evt.manu { background: var(--c-manu-bg); color: var(--c-manu); }
+  .cal-evt.location { background: #D1FAE5; color: #065F46; }
   .table-wrap { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; }
   th { text-align: left; font-size: 11.5px; font-weight: 600; color: var(--c-text3); text-transform: uppercase; letter-spacing: 0.5px; padding: 10px 14px; border-bottom: 1px solid var(--c-border); white-space: nowrap; }
-  td { padding: 12px 14px; border-bottom: 1px solid var(--c-border); font-size: 13.5px; vertical-align: middle; }
+  td { padding: 11px 14px; border-bottom: 1px solid var(--c-border); font-size: 13.5px; vertical-align: middle; }
   tr:last-child td { border-bottom: none; }
   tr:hover td { background: var(--c-surface2); }
-  .avatar { width: 32px; height: 32px; border-radius: 50%; background: var(--c-accent-light); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; color: var(--c-accent-text); flex-shrink: 0; }
-  .guest-info { display: flex; align-items: center; gap: 10px; }
-  .guest-name { font-weight: 500; }
-  .guest-email { font-size: 12px; color: var(--c-text3); }
-  .source-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
-
-  /* GRID 2COL */
+  .avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
   .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-
-  /* MODAL */
   .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: none; align-items: center; justify-content: center; backdrop-filter: blur(2px); }
   .modal-overlay.open { display: flex; }
-  .modal { background: var(--c-surface); border-radius: var(--radius-lg); width: 560px; max-width: 95vw; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+  .modal { background: var(--c-surface); border-radius: var(--radius-lg); width: 580px; max-width: 96vw; max-height: 92vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
   .modal-header { padding: 20px 24px 0; display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
   .modal-title { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; }
   .modal-body { padding: 0 24px 24px; }
-  .modal-footer { padding: 16px 24px; border-top: 1px solid var(--c-border); display: flex; justify-content: flex-end; gap: 8px; }
+  .modal-footer { padding: 14px 24px; border-top: 1px solid var(--c-border); display: flex; justify-content: flex-end; gap: 8px; }
   .close-btn { width: 28px; height: 28px; border-radius: 6px; border: none; background: var(--c-surface2); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--c-text2); }
   .close-btn:hover { background: var(--c-border); }
-
-  /* FORM */
-  .form-group { margin-bottom: 16px; }
+  .form-group { margin-bottom: 14px; }
   .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
   label { display: block; font-size: 12.5px; font-weight: 500; color: var(--c-text2); margin-bottom: 5px; }
   input, select, textarea { width: 100%; padding: 8px 11px; border: 1px solid var(--c-border2); border-radius: 8px; font-family: 'DM Sans', sans-serif; font-size: 13.5px; color: var(--c-text); background: var(--c-surface); transition: border-color 0.15s; outline: none; }
   input:focus, select:focus, textarea:focus { border-color: var(--c-accent); box-shadow: 0 0 0 3px rgba(43,79,216,0.1); }
-  textarea { resize: vertical; min-height: 80px; }
+  textarea { resize: vertical; min-height: 70px; }
   .form-section { border-top: 1px solid var(--c-border); padding-top: 16px; margin-top: 4px; }
   .form-section-title { font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600; color: var(--c-text); margin-bottom: 12px; }
-
-  /* GUESTS LIST */
-  .guests-list { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .guest-row { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--c-surface2); border-radius: 8px; border: 1px solid var(--c-border); }
+  .guests-list { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
+  .guest-row { display: flex; align-items: center; gap: 8px; padding: 7px 10px; background: var(--c-surface2); border-radius: 8px; border: 1px solid var(--c-border); }
   .guest-row input { background: transparent; border: none; padding: 0; font-size: 13px; flex: 1; }
-  .guest-row input:focus { box-shadow: none; border: none; }
-  .remove-guest { width: 24px; height: 24px; border-radius: 5px; border: none; background: transparent; cursor: pointer; color: var(--c-text3); font-size: 14px; display: flex; align-items: center; justify-content: center; }
+  .guest-row input:focus { box-shadow: none; }
+  .remove-guest { width: 22px; height: 22px; border-radius: 5px; border: none; background: transparent; cursor: pointer; color: var(--c-text3); font-size: 13px; display: flex; align-items: center; justify-content: center; }
   .remove-guest:hover { background: var(--c-danger-bg); color: var(--c-danger); }
-  .add-guest-btn { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--c-accent); cursor: pointer; padding: 6px 0; background: none; border: none; font-family: 'DM Sans', sans-serif; font-weight: 500; }
-  .add-guest-btn:hover { color: var(--c-accent-text); }
-
-  /* FINANCE */
-  .revenue-bar { height: 160px; display: flex; align-items: flex-end; gap: 8px; padding: 0 4px; }
+  .add-btn-link { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--c-accent); cursor: pointer; padding: 6px 0; background: none; border: none; font-family: 'DM Sans', sans-serif; font-weight: 500; }
+  .revenue-bar { height: 150px; display: flex; align-items: flex-end; gap: 8px; padding: 0 4px; }
   .rev-bar-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; }
-  .rev-bar { width: 100%; border-radius: 6px 6px 0 0; transition: height 0.3s; position: relative; cursor: pointer; }
-  .rev-bar:hover { opacity: 0.85; }
+  .rev-bar { width: 100%; border-radius: 5px 5px 0 0; }
   .rev-bar-label { font-size: 10px; color: var(--c-text3); font-weight: 500; }
   .rev-bar-val { font-size: 10px; font-weight: 600; color: var(--c-text2); }
-
-  /* TABS */
-  .tabs { display: flex; gap: 2px; background: var(--c-surface2); border-radius: 9px; padding: 3px; margin-bottom: 20px; width: fit-content; }
-  .tab { padding: 6px 14px; border-radius: 7px; cursor: pointer; font-size: 13px; color: var(--c-text2); transition: all 0.15s; font-weight: 400; }
-  .tab.active { background: var(--c-surface); color: var(--c-text); font-weight: 500; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-
-  /* UPCOMING CARD */
-  .upcoming-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--c-border); }
+  .share-card { border-radius: var(--radius-lg); padding: 18px 20px; border: 1px solid; }
+  .share-jeremy { background: var(--c-jeremy-bg); border-color: #99F6E4; }
+  .share-julien { background: var(--c-julien-bg); border-color: #BFDBFE; }
+  .share-manu { background: var(--c-manu-bg); border-color: #DDD6FE; }
+  .share-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+  .share-amount { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; line-height: 1; margin-bottom: 4px; }
+  .share-sub { font-size: 12px; opacity: 0.75; }
+  .share-jeremy .share-name, .share-jeremy .share-amount { color: var(--c-jeremy); }
+  .share-julien .share-name, .share-julien .share-amount { color: var(--c-julien); }
+  .share-manu .share-name, .share-manu .share-amount { color: var(--c-manu); }
+  .charge-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid var(--c-border); }
+  .charge-item:last-child { border-bottom: none; }
+  .charge-item:hover { background: var(--c-surface2); }
+  .charge-icon { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; background: #FEF9C3; }
+  .charge-info { flex: 1; }
+  .charge-label { font-weight: 500; font-size: 13.5px; }
+  .charge-meta { font-size: 12px; color: var(--c-text3); }
+  .charge-amount { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
+  .charge-share-txt { font-size: 12px; color: var(--c-text3); text-align: right; }
+  .upcoming-item { display: flex; align-items: center; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--c-border); cursor: pointer; }
   .upcoming-item:last-child { border-bottom: none; }
-  .upcoming-date { text-align: center; min-width: 44px; }
+  .upcoming-date { text-align: center; min-width: 40px; }
   .upcoming-day { font-family: 'Syne', sans-serif; font-size: 22px; font-weight: 700; line-height: 1; }
   .upcoming-month { font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--c-text3); font-weight: 500; }
   .upcoming-info { flex: 1; }
   .upcoming-name { font-weight: 500; font-size: 13.5px; }
   .upcoming-detail { font-size: 12px; color: var(--c-text3); }
-  .upcoming-amount { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px; }
-
-  /* DIVIDER */
-  .divider { height: 1px; background: var(--c-border); margin: 20px 0; }
-
-  /* CHECKIN DETAIL */
   .detail-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .detail-item { }
   .detail-key { font-size: 11.5px; color: var(--c-text3); text-transform: uppercase; letter-spacing: 0.4px; font-weight: 500; margin-bottom: 3px; }
   .detail-val { font-size: 14px; font-weight: 500; }
-
-  /* GUEST DETAIL CHIPS */
   .guests-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
   .guest-chip { display: flex; align-items: center; gap: 6px; padding: 5px 10px 5px 6px; background: var(--c-surface2); border: 1px solid var(--c-border); border-radius: 20px; font-size: 12.5px; }
   .chip-avatar { width: 22px; height: 22px; border-radius: 50%; background: var(--c-accent-light); display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; color: var(--c-accent-text); }
-
-  /* EMPTY STATE */
-  .empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 60px 20px; color: var(--c-text3); text-align: center; gap: 12px; }
-  .empty-icon { font-size: 40px; opacity: 0.4; }
-  .empty-title { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; color: var(--c-text2); }
-
-  /* FINANCE CHART */
-  .chart-container { position: relative; }
-  .donut-wrap { display: flex; align-items: center; gap: 24px; }
-  .donut-legend { display: flex; flex-direction: column; gap: 8px; }
-  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; }
-  .legend-dot { width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0; }
-
-  /* TOOLTIP */
-  .tooltip { position: absolute; background: var(--c-text); color: white; padding: 5px 8px; border-radius: 6px; font-size: 11px; font-weight: 500; pointer-events: none; white-space: nowrap; z-index: 10; }
-
-  /* FILTER BAR */
+  .divider { height: 1px; background: var(--c-border); margin: 14px 0; }
   .filter-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; flex-wrap: wrap; }
-  .filter-bar input[type="text"] { max-width: 220px; }
-
-  /* SCROLL */
+  .filter-bar input[type="text"] { max-width: 200px; }
+  .filter-bar select { width: auto; }
+  .empty { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 50px 20px; color: var(--c-text3); text-align: center; gap: 10px; }
+  .empty-icon { font-size: 36px; opacity: 0.4; }
+  .empty-title { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; color: var(--c-text2); }
   ::-webkit-scrollbar { width: 5px; height: 5px; }
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--c-border2); border-radius: 3px; }
-
-  /* RESPONSIVE HELPERS */
   @media (max-width: 1100px) {
-    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .stats-grid, .stats-grid-3 { grid-template-columns: repeat(2, 1fr); }
     .grid-2 { grid-template-columns: 1fr; }
   }
 </style>
 </head>
 <body>
 <div class="app">
-
-  <!-- SIDEBAR -->
   <aside class="sidebar">
     <div class="logo">
-      <div class="logo-text">🏡 </div>
-      <div class="logo-sub">Gestion location</div>
+      <div class="logo-text">🏠 Maison BUSSANG</div>
+      <div class="logo-sub">Copropriété · 3 associés</div>
     </div>
     <nav class="nav">
       <div class="nav-section">
-        <div class="nav-label">Principal</div>
-        <div class="nav-item active" onclick="showView('dashboard')">
+        <div class="nav-label">Général</div>
+        <div class="nav-item active" onclick="showView('dashboard',this)">
           <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2zm0 6a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1v-2z"/></svg>
           Tableau de bord
         </div>
-        <div class="nav-item" onclick="showView('calendar')">
+        <div class="nav-item" onclick="showView('calendar',this)">
           <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"/></svg>
           Calendrier
         </div>
-        <div class="nav-item" onclick="showView('reservations')">
+        <div class="nav-item" onclick="showView('sejours',this)">
           <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z"/><path fill-rule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clip-rule="evenodd"/></svg>
-          Réservations
+          Séjours
         </div>
       </div>
       <div class="nav-section">
-        <div class="nav-label">Finance</div>
-        <div class="nav-item" onclick="showView('finances')">
-          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"/><path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"/></svg>
-          Finances
+        <div class="nav-label">Finances</div>
+        <div class="nav-item" onclick="showView('charges',this)">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
+          Charges
+        </div>
+        <div class="nav-item" onclick="showView('bilan',this)">
+          <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+          Bilan annuel
         </div>
       </div>
     </nav>
     <div class="sidebar-footer">
-      <div class="prop-badge">
-        <div class="prop-icon">
-          <svg width="16" height="16" viewBox="0 0 20 20" fill="white"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
-        </div>
-        <div>
-          <div class="prop-name">Maison BUSSANG</div>
-        </div>
+      <div class="owners-label">Propriétaires</div>
+      <div class="owners-row">
+        <div class="owner-pill owner-jeremy">Jérémy</div>
+        <div class="owner-pill owner-julien">Julien</div>
+        <div class="owner-pill owner-manu">Manu</div>
       </div>
     </div>
   </aside>
 
-  <!-- MAIN -->
   <main class="main">
     <div class="topbar">
       <div class="page-title" id="page-title">Tableau de bord</div>
       <div class="topbar-actions">
-        <button class="btn btn-primary" onclick="openNewReservation()">
-          <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
-          Nouvelle réservation
-        </button>
+        <button class="btn btn-elec" onclick="openNewCharge('Électricité')">⚡ Ajouter une facture</button>
+        <button class="btn btn-primary" onclick="openNewSejour()">+ Nouveau séjour</button>
       </div>
     </div>
 
     <div class="content">
 
-      <!-- DASHBOARD VIEW -->
+      <!-- DASHBOARD -->
       <div class="view active" id="view-dashboard">
         <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Taux d'occupation</div>
-            <div class="stat-value">78%</div>
-            <div class="stat-trend trend-up">↑ +5% vs mois dernier</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Revenus ce mois</div>
-            <div class="stat-value">3 240 €</div>
-            <div class="stat-trend trend-up">↑ +12%</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Réservations actives</div>
-            <div class="stat-value">6</div>
-            <div class="stat-sub">2 confirmées ce mois</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Note moyenne</div>
-            <div class="stat-value">4.8 ★</div>
-            <div class="stat-sub">Sur 24 avis</div>
-          </div>
+          <div class="stat-card"><div class="stat-label">Séjours 2025</div><div class="stat-value" id="st-sejours">—</div><div class="stat-sub" id="st-sejours-sub"></div></div>
+          <div class="stat-card"><div class="stat-label">Nuits occupées</div><div class="stat-value" id="st-nuits">—</div><div class="stat-sub">en 2025</div></div>
+          <div class="stat-card"><div class="stat-label">Charges totales</div><div class="stat-value" id="st-charges">—</div><div class="stat-sub">en 2025</div></div>
+          <div class="stat-card"><div class="stat-label">Part / propriétaire</div><div class="stat-value" id="st-part">—</div><div class="stat-sub">⅓ des charges 2025</div></div>
         </div>
-
         <div class="grid-2">
-          <!-- Prochains séjours -->
           <div class="card">
-            <div class="card-header">
-              <div class="card-title">Prochains séjours</div>
-              <button class="btn btn-ghost btn-sm" onclick="showView('reservations')">Voir tout →</button>
-            </div>
-            <div id="upcoming-list">
-              <!-- JS rendered -->
-            </div>
+            <div class="card-header"><div class="card-title">Prochains séjours</div><button class="btn btn-ghost btn-sm" onclick="showView('sejours',null)">Voir tout →</button></div>
+            <div id="upcoming-list"></div>
           </div>
-
-          <!-- Checklist -->
           <div class="card">
-            <div class="card-header">
-              <div class="card-title">Actions à faire</div>
-              <span class="badge badge-warning" id="todo-count">3</span>
-            </div>
-            <div style="display:flex;flex-direction:column;gap:8px;" id="todo-list">
-              <div class="upcoming-item" style="padding:8px 0;">
-                <input type="checkbox" style="width:16px;height:16px;flex-shrink:0;accent-color:var(--c-accent);" onchange="updateTodo(this)">
-                <div style="flex:1;">
-                  <div style="font-size:13.5px;font-weight:500;">Préparer le logement — Dupont</div>
-                  <div style="font-size:12px;color:var(--c-text3);">Check-in demain · 15h00</div>
-                </div>
-                <span class="badge badge-warning">Urgent</span>
-              </div>
-              <div class="upcoming-item" style="padding:8px 0;">
-                <input type="checkbox" style="width:16px;height:16px;flex-shrink:0;accent-color:var(--c-accent);" onchange="updateTodo(this)">
-                <div style="flex:1;">
-                  <div style="font-size:13.5px;font-weight:500;">Envoyer codes accès — Martin</div>
-                  <div style="font-size:12px;color:var(--c-text3);">Check-in dans 3 jours</div>
-                </div>
-                <span class="badge badge-accent">À faire</span>
-              </div>
-              <div class="upcoming-item" style="padding:8px 0;border-bottom:none;">
-                <input type="checkbox" style="width:16px;height:16px;flex-shrink:0;accent-color:var(--c-accent);" onchange="updateTodo(this)">
-                <div style="flex:1;">
-                  <div style="font-size:13.5px;font-weight:500;">Relancer avis — Famille Leroy</div>
-                  <div style="font-size:12px;color:var(--c-text3);">Séjour terminé il y a 2 jours</div>
-                </div>
-                <span class="badge badge-neutral">Rappel</span>
-              </div>
-            </div>
+            <div class="card-header"><div class="card-title">Dernières charges</div><button class="btn btn-ghost btn-sm" onclick="showView('charges',null)">Voir tout →</button></div>
+            <div id="recent-charges-list"></div>
           </div>
-        </div>
-
-        <!-- Revenue mini chart -->
-        <div class="card" style="margin-top:16px;">
-          <div class="card-header">
-            <div class="card-title">Revenus — 6 derniers mois</div>
-            <div style="font-size:12px;color:var(--c-text3);">Total : 17 840 €</div>
-          </div>
-          <div class="revenue-bar" id="rev-chart"></div>
         </div>
       </div>
 
-      <!-- CALENDAR VIEW -->
+      <!-- CALENDAR -->
       <div class="view" id="view-calendar">
         <div class="card">
           <div class="calendar-header">
@@ -388,198 +283,177 @@
               <div class="cal-month" id="cal-month-label"></div>
               <button class="cal-btn" onclick="changeMonth(1)">›</button>
             </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <div class="badge airbnb" style="background:#FFE4D6;color:#C63A00;">● Airbnb</div>
-              <div class="badge booking" style="background:#DBEAFE;color:#1E40AF;">● Booking</div>
-              <div class="badge direct" style="background:#D1FAE5;color:#065F46;">● Direct</div>
-              <div class="badge blocked" style="background:var(--c-surface2);color:var(--c-text3);">● Bloqué</div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+              <div class="owner-tag tag-jeremy">● Jérémy</div>
+              <div class="owner-tag tag-julien">● Julien</div>
+              <div class="owner-tag tag-manu">● Manu</div>
+              <div class="badge badge-success">● Location</div>
             </div>
           </div>
           <div class="cal-grid" id="cal-grid"></div>
         </div>
       </div>
 
-      <!-- RESERVATIONS VIEW -->
-      <div class="view" id="view-reservations">
+      <!-- SEJOURS -->
+      <div class="view" id="view-sejours">
         <div class="filter-bar">
-          <input type="text" placeholder="Rechercher un voyageur…" oninput="filterReservations(this.value)" style="max-width:220px;">
-          <select onchange="filterByStatus(this.value)">
-            <option value="">Tous les statuts</option>
-            <option value="confirmée">Confirmée</option>
-            <option value="en attente">En attente</option>
-            <option value="terminée">Terminée</option>
-            <option value="annulée">Annulée</option>
-          </select>
-          <select onchange="filterBySource(this.value)">
-            <option value="">Toutes sources</option>
-            <option value="Airbnb">Airbnb</option>
-            <option value="Booking">Booking</option>
-            <option value="Direct">Direct</option>
+          <input type="text" placeholder="Rechercher…" oninput="filterSejours(this.value)">
+          <select onchange="filterSejourOwner(this.value)">
+            <option value="">Tous</option>
+            <option>Jérémy</option><option>Julien</option><option>Manu</option>
+            <option value="location">Location directe</option>
           </select>
         </div>
         <div class="card" style="padding:0;">
           <div class="table-wrap">
-            <table id="reservations-table">
-              <thead>
-                <tr>
-                  <th>Voyageur principal</th>
-                  <th>Présents dans le logement</th>
-                  <th>Arrivée</th>
-                  <th>Départ</th>
-                  <th>Nuits</th>
-                  <th>Source</th>
-                  <th>Montant</th>
-                  <th>Statut</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="reservations-tbody"></tbody>
+            <table>
+              <thead><tr><th>Organisateur</th><th>Personnes présentes</th><th>Arrivée</th><th>Départ</th><th>Nuits</th><th>Type</th><th>Notes</th><th></th></tr></thead>
+              <tbody id="sejours-tbody"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- FINANCES VIEW -->
-      <div class="view" id="view-finances">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-label">Revenus bruts 2025</div>
-            <div class="stat-value">17 840 €</div>
-            <div class="stat-trend trend-up">↑ +18% vs 2024</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Charges estimées</div>
-            <div class="stat-value">3 210 €</div>
-            <div class="stat-sub">Ménage, fournitures…</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Revenus nets</div>
-            <div class="stat-value">14 630 €</div>
-            <div class="stat-trend trend-up">↑ Solide</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-label">Prix/nuit moyen</div>
-            <div class="stat-value">142 €</div>
-            <div class="stat-sub">Sur 126 nuits louées</div>
-          </div>
+      <!-- CHARGES -->
+      <div class="view" id="view-charges">
+        <div class="filter-bar">
+          <select onchange="filterChargeType(this.value)">
+            <option value="">Toutes les charges</option>
+            <option value="Électricité">Électricité</option>
+            <option value="Eau">Eau</option>
+            <option value="Entretien">Entretien</option>
+            <option value="Autre">Autre</option>
+          </select>
+          <select id="charge-year-filter" onchange="renderCharges()">
+            <option value="2025">2025</option><option value="2024">2024</option>
+          </select>
         </div>
+        <div class="stats-grid-3" id="charges-owner-stats"></div>
+        <div class="card" style="padding:0;">
+          <div class="card-header" style="padding:16px 20px 0;">
+            <div class="card-title">Liste des charges</div>
+            <button class="btn btn-elec btn-sm" onclick="openNewCharge('')">+ Ajouter</button>
+          </div>
+          <div id="charges-list"></div>
+        </div>
+      </div>
 
+      <!-- BILAN -->
+      <div class="view" id="view-bilan">
+        <div class="filter-bar">
+          <label style="margin:0;color:var(--c-text2);font-size:13px;">Année :</label>
+          <select id="bilan-year" onchange="renderBilan()" style="width:auto;">
+            <option value="2025">2025</option><option value="2024">2024</option>
+          </select>
+        </div>
+        <div class="stats-grid-3" id="bilan-owner-cards"></div>
         <div class="grid-2">
           <div class="card">
-            <div class="card-header"><div class="card-title">Revenus par mois</div></div>
-            <div class="revenue-bar" id="rev-chart-finance" style="height:200px;"></div>
+            <div class="card-header"><div class="card-title">Charges par mois</div></div>
+            <div class="revenue-bar" id="bilan-chart" style="height:160px;"></div>
           </div>
           <div class="card">
-            <div class="card-header"><div class="card-title">Répartition par source</div></div>
-            <div class="donut-wrap" style="margin-top:12px;">
-              <canvas id="donut-canvas" width="140" height="140"></canvas>
-              <div class="donut-legend">
-                <div class="legend-item"><div class="legend-dot" style="background:#F97316;"></div> Airbnb · 52% · 9 274 €</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#3B82F6;"></div> Booking · 31% · 5 530 €</div>
-                <div class="legend-item"><div class="legend-dot" style="background:#10B981;"></div> Direct · 17% · 3 036 €</div>
-              </div>
-            </div>
+            <div class="card-header"><div class="card-title">Répartition par type</div></div>
+            <div id="bilan-type-breakdown"></div>
           </div>
         </div>
-
         <div class="card" style="margin-top:16px;">
-          <div class="card-header">
-            <div class="card-title">Historique des paiements</div>
-          </div>
-          <div class="table-wrap">
-            <table>
-              <thead>
-                <tr><th>Date</th><th>Voyageur</th><th>Source</th><th>Montant</th><th>Commission</th><th>Net</th><th>Statut</th></tr>
-              </thead>
-              <tbody id="finance-tbody"></tbody>
-            </table>
-          </div>
+          <div class="card-header"><div class="card-title">Récapitulatif — clôture annuelle</div><span class="badge badge-elec">⅓ chacun</span></div>
+          <div id="bilan-recap"></div>
         </div>
       </div>
 
-    </div><!-- /content -->
+    </div>
   </main>
 </div>
 
-<!-- MODAL Nouvelle réservation -->
-<div class="modal-overlay" id="modal-reservation">
+<!-- MODAL SEJOUR -->
+<div class="modal-overlay" id="modal-sejour">
   <div class="modal">
     <div class="modal-header">
-      <div class="modal-title" id="modal-res-title">Nouvelle réservation</div>
-      <button class="close-btn" onclick="closeModal('modal-reservation')">✕</button>
+      <div class="modal-title" id="modal-sej-title">Nouveau séjour</div>
+      <button class="close-btn" onclick="closeModal('modal-sejour')">✕</button>
     </div>
     <div class="modal-body">
       <div class="form-row">
         <div class="form-group">
-          <label>Nom du voyageur principal</label>
-          <input type="text" id="f-name" placeholder="Ex : Dupont Marie">
-        </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="f-email" placeholder="email@exemple.fr">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Téléphone</label>
-          <input type="tel" id="f-phone" placeholder="06 00 00 00 00">
-        </div>
-        <div class="form-group">
-          <label>Source</label>
-          <select id="f-source">
-            <option>Airbnb</option>
-            <option>Booking</option>
-            <option>Direct</option>
+          <label>Organisateur principal</label>
+          <select id="f-owner">
+            <option value="Jérémy">Jérémy</option>
+            <option value="Julien">Julien</option>
+            <option value="Manu">Manu</option>
+            <option value="location">Location directe</option>
           </select>
         </div>
-      </div>
-      <div class="form-row">
         <div class="form-group">
-          <label>Date d'arrivée</label>
-          <input type="date" id="f-checkin">
-        </div>
-        <div class="form-group">
-          <label>Date de départ</label>
-          <input type="date" id="f-checkout">
+          <label>Nom du locataire (si location)</label>
+          <input type="text" id="f-tenant" placeholder="Nom Prénom">
         </div>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Montant total (€)</label>
-          <input type="number" id="f-amount" placeholder="0">
-        </div>
-        <div class="form-group">
-          <label>Statut</label>
-          <select id="f-status">
-            <option>confirmée</option>
-            <option>en attente</option>
-          </select>
-        </div>
+        <div class="form-group"><label>Date d'arrivée</label><input type="date" id="f-checkin"></div>
+        <div class="form-group"><label>Date de départ</label><input type="date" id="f-checkout"></div>
       </div>
-
       <div class="form-section">
         <div class="form-section-title">👥 Personnes présentes dans le logement</div>
-        <div style="font-size:12.5px;color:var(--c-text3);margin-bottom:10px;">Indiquez le nom de chaque personne qui séjournera (hors voyageur principal)</div>
         <div class="guests-list" id="guests-list"></div>
-        <button class="add-guest-btn" onclick="addGuestField()">
-          <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><path d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"/></svg>
-          Ajouter une personne
-        </button>
+        <button class="add-btn-link" onclick="addGuestField('')">+ Ajouter une personne</button>
       </div>
-
       <div class="form-section">
         <div class="form-section-title">📝 Notes</div>
-        <textarea id="f-notes" placeholder="Informations particulières, demandes spéciales…"></textarea>
+        <textarea id="f-notes" placeholder="Remarques, travaux constatés, problèmes…"></textarea>
       </div>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-secondary" onclick="closeModal('modal-reservation')">Annuler</button>
-      <button class="btn btn-primary" onclick="saveReservation()">Enregistrer</button>
+      <button class="btn btn-secondary" onclick="closeModal('modal-sejour')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveSejour()">Enregistrer</button>
     </div>
   </div>
 </div>
 
-<!-- MODAL Détail réservation -->
+<!-- MODAL CHARGE -->
+<div class="modal-overlay" id="modal-charge">
+  <div class="modal" style="width:460px;">
+    <div class="modal-header">
+      <div class="modal-title" id="modal-chg-title">Ajouter une charge</div>
+      <button class="close-btn" onclick="closeModal('modal-charge')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Type de charge</label>
+        <select id="c-type">
+          <option value="Électricité">⚡ Électricité</option>
+          <option value="Eau">💧 Eau</option>
+          <option value="Entretien">🔧 Entretien / Réparation</option>
+          <option value="Autre">📋 Autre</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Libellé</label><input type="text" id="c-label" placeholder="Ex : Facture EDF novembre"></div>
+      <div class="form-row">
+        <div class="form-group"><label>Montant total (€)</label><input type="number" id="c-amount" placeholder="0.00" step="0.01"></div>
+        <div class="form-group"><label>Date</label><input type="date" id="c-date"></div>
+      </div>
+      <div class="form-group">
+        <label>Payé par</label>
+        <select id="c-paidby">
+          <option value="Jérémy">Jérémy</option>
+          <option value="Julien">Julien</option>
+          <option value="Manu">Manu</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Notes / Référence facture</label><input type="text" id="c-notes" placeholder="N° facture, relevé compteur…"></div>
+      <div style="background:var(--c-surface2);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--c-text2);">
+        💡 Ce montant sera réparti en <strong>3 parts égales</strong> entre Jérémy, Julien et Manu lors du bilan annuel.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-charge')">Annuler</button>
+      <button class="btn btn-primary" onclick="saveCharge()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL DETAIL -->
 <div class="modal-overlay" id="modal-detail">
   <div class="modal">
     <div class="modal-header">
@@ -588,342 +462,313 @@
     </div>
     <div class="modal-body" id="detail-body"></div>
     <div class="modal-footer">
-      <button class="btn btn-danger btn-sm" onclick="deleteCurrentRes()">Supprimer</button>
+      <button class="btn btn-danger btn-sm" onclick="deleteCurrentSejour()">Supprimer</button>
       <button class="btn btn-secondary" onclick="closeModal('modal-detail')">Fermer</button>
-      <button class="btn btn-primary" onclick="editCurrentRes()">Modifier</button>
+      <button class="btn btn-primary" onclick="editCurrentSejour()">Modifier</button>
     </div>
   </div>
 </div>
 
 <script>
-// ===== DATA =====
-let reservations = [
-  { id:1, name:'Dupont Marie', email:'m.dupont@mail.fr', phone:'06 12 34 56 78', source:'Airbnb', checkin:'2025-07-15', checkout:'2025-07-22', amount:980, status:'confirmée', notes:'Arrivée tardive prévue vers 21h', guests:['Dupont Pierre','Dupont Lucie','Dupont Thomas'] },
-  { id:2, name:'Martin Jean-Paul', email:'jp.martin@gmail.com', phone:'06 98 76 54 32', source:'Booking', checkin:'2025-07-28', checkout:'2025-08-04', amount:1050, status:'confirmée', notes:'', guests:['Martin Sophie','Martin Éric'] },
-  { id:3, name:'Leroy Famille', email:'leroy@outlook.com', phone:'07 11 22 33 44', source:'Direct', checkin:'2025-06-10', checkout:'2025-06-17', amount:840, status:'terminée', notes:'Excellent séjour, à recontacter', guests:['Leroy Paul','Leroy Anne','Leroy Camille','Leroy Hugo'] },
-  { id:4, name:'Bernard Stéphanie', email:'s.bernard@pro.fr', phone:'06 55 44 33 22', source:'Airbnb', checkin:'2025-08-10', checkout:'2025-08-17', amount:1120, status:'en attente', notes:'Demande lit bébé', guests:['Bernard Marc'] },
-  { id:5, name:'García Carlos', email:'c.garcia@esp.es', phone:'+34 612 345 678', source:'Booking', checkin:'2025-05-20', checkout:'2025-05-25', amount:590, status:'terminée', notes:'', guests:['García Elena','García Sofia'] },
-  { id:6, name:'Petit Nicolas', email:'n.petit@mail.fr', phone:'06 77 88 99 00', source:'Direct', checkin:'2025-09-01', checkout:'2025-09-08', amount:910, status:'confirmée', notes:'', guests:['Petit Isabelle','Petit Théo'] },
+const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+const DAYS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
+const OWNERS=['Jérémy','Julien','Manu'];
+
+let sejours=[
+  {id:1,owner:'Jérémy',tenant:'',checkin:'2025-07-04',checkout:'2025-07-11',guests:['Sophie Renard','Lucas Renard','Emma Renard'],notes:'Vacances été en famille'},
+  {id:2,owner:'Julien',tenant:'',checkin:'2025-08-01',checkout:'2025-08-10',guests:['Isabelle Petit','Théo Petit'],notes:''},
+  {id:3,owner:'Manu',tenant:'',checkin:'2025-08-15',checkout:'2025-08-22',guests:['Céline Dupuis','Tom Dupuis'],notes:''},
+  {id:4,owner:'Jérémy',tenant:'',checkin:'2025-04-18',checkout:'2025-04-21',guests:['Arthur Renard'],notes:'Week-end printemps'},
+  {id:5,owner:'Julien',tenant:'',checkin:'2025-05-09',checkout:'2025-05-12',guests:['Isabelle Petit'],notes:"Pont de l'Ascension"},
+  {id:6,owner:'location',tenant:'Famille Martin',checkin:'2025-07-14',checkout:'2025-07-21',guests:['Martin Paul','Martin Anne','Martin Lucie'],notes:'Location directe · 800€'},
 ];
-let editingId = null;
-let currentDetailId = null;
-let currentMonth = new Date(2025, 6, 1); // juillet 2025
 
-const MONTHS = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
-const DAYS = ['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
-const REVENUE_DATA = [2100, 1840, 2650, 3120, 2580, 3240];
-const REVENUE_MONTHS = ['Fév','Mar','Avr','Mai','Jui','Jul'];
+let charges=[
+  {id:1,type:'Électricité',label:'Facture EDF — Janv. 2025',amount:142,date:'2025-01-15',paidby:'Jérémy',notes:'Relevé 14 200 kWh'},
+  {id:2,type:'Électricité',label:'Facture EDF — Fév. 2025',amount:138,date:'2025-02-15',paidby:'Julien',notes:''},
+  {id:3,type:'Électricité',label:'Facture EDF — Mars 2025',amount:121,date:'2025-03-15',paidby:'Manu',notes:''},
+  {id:4,type:'Électricité',label:'Facture EDF — Avr. 2025',amount:108,date:'2025-04-15',paidby:'Jérémy',notes:''},
+  {id:5,type:'Eau',label:'Abonnement eau — T1 2025',amount:64,date:'2025-01-20',paidby:'Julien',notes:''},
+  {id:6,type:'Entretien',label:'Chaudière — révision annuelle',amount:180,date:'2025-03-10',paidby:'Manu',notes:'Plombier Vosges'},
+  {id:7,type:'Électricité',label:'Facture EDF — Mai 2025',amount:95,date:'2025-05-15',paidby:'Jérémy',notes:''},
+  {id:8,type:'Autre',label:'Achat linge de lit x4',amount:220,date:'2025-04-02',paidby:'Julien',notes:''},
+];
 
-// ===== NAVIGATION =====
-function showView(name) {
-  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+let editingSejourId=null, currentDetailId=null;
+let currentMonth=new Date(2025,6,1);
+let sejourFilter='', sejourOwnerFilter='', chargeTypeFilter='';
+
+function showView(name,el){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('view-'+name).classList.add('active');
-  const titles = {dashboard:'Tableau de bord', calendar:'Calendrier', reservations:'Réservations', finances:'Finances'};
-  document.getElementById('page-title').textContent = titles[name];
-  event && event.currentTarget && event.currentTarget.classList.add('active');
+  const titles={dashboard:'Tableau de bord',calendar:'Calendrier',sejours:'Séjours',charges:'Charges',bilan:'Bilan annuel'};
+  document.getElementById('page-title').textContent=titles[name];
+  if(el) el.classList.add('active');
+  if(name==='dashboard') renderDashboard();
   if(name==='calendar') renderCalendar();
-  if(name==='reservations') renderReservations(reservations);
-  if(name==='finances') { renderFinanceChart(); renderDonut(); renderFinanceTable(); }
-  if(name==='dashboard') { renderUpcoming(); renderRevChart('rev-chart'); }
+  if(name==='sejours') renderSejours();
+  if(name==='charges') renderCharges();
+  if(name==='bilan') renderBilan();
 }
 
-// Fix nav active on click
-document.querySelectorAll('.nav-item').forEach(item => {
-  item.addEventListener('click', function() {
-    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-    this.classList.add('active');
-  });
-});
+function renderDashboard(){
+  const yr='2025';
+  const ys=sejours.filter(s=>s.checkin.startsWith(yr));
+  const totalN=ys.reduce((a,s)=>a+nights(s.checkin,s.checkout),0);
+  const totalC=charges.filter(c=>c.date.startsWith(yr)).reduce((a,c)=>a+c.amount,0);
+  document.getElementById('st-sejours').textContent=ys.length;
+  document.getElementById('st-sejours-sub').textContent=`dont ${ys.filter(s=>s.owner==='location').length} location(s)`;
+  document.getElementById('st-nuits').textContent=totalN;
+  document.getElementById('st-charges').textContent=totalC.toFixed(0)+' €';
+  document.getElementById('st-part').textContent=(totalC/3).toFixed(0)+' €';
 
-// ===== DASHBOARD =====
-function renderUpcoming() {
-  const today = new Date('2025-07-10');
-  const upcoming = reservations
-    .filter(r => new Date(r.checkin) >= today && r.status !== 'annulée')
-    .sort((a,b) => new Date(a.checkin)-new Date(b.checkin))
-    .slice(0,4);
-  const el = document.getElementById('upcoming-list');
-  if(!upcoming.length) { el.innerHTML = '<div class="empty"><div class="empty-icon">📭</div><div class="empty-title">Aucun séjour à venir</div></div>'; return; }
-  el.innerHTML = upcoming.map(r => {
-    const d = new Date(r.checkin);
-    const nights = Math.round((new Date(r.checkout)-new Date(r.checkin))/(1000*60*60*24));
-    return `<div class="upcoming-item" onclick="openDetail(${r.id})" style="cursor:pointer;">
-      <div class="upcoming-date">
-        <div class="upcoming-day">${d.getDate()}</div>
-        <div class="upcoming-month">${MONTHS[d.getMonth()].substring(0,3)}</div>
-      </div>
-      <div class="upcoming-info">
-        <div class="upcoming-name">${r.name}</div>
-        <div class="upcoming-detail">${nights} nuits · ${r.guests.length} accompagnant${r.guests.length>1?'s':''} · ${r.source}</div>
-      </div>
-      <div class="upcoming-amount">${r.amount}€</div>
+  const today=new Date();
+  const upcoming=sejours.filter(s=>new Date(s.checkin)>=today).sort((a,b)=>new Date(a.checkin)-new Date(b.checkin)).slice(0,4);
+  const icons={Jérémy:'tag-jeremy',Julien:'tag-julien',Manu:'tag-manu',location:'badge-success'};
+  document.getElementById('upcoming-list').innerHTML=upcoming.length?upcoming.map(s=>{
+    const d=new Date(s.checkin),n=nights(s.checkin,s.checkout);
+    const lbl=s.owner==='location'?s.tenant:s.owner;
+    return `<div class="upcoming-item" onclick="openDetailSejour(${s.id})">
+      <div class="upcoming-date"><div class="upcoming-day">${d.getDate()}</div><div class="upcoming-month">${MONTHS[d.getMonth()].substring(0,3)}</div></div>
+      <div class="upcoming-info"><div class="upcoming-name">${lbl}</div><div class="upcoming-detail">${n} nuit${n>1?'s':''} · ${s.guests.length} accompagnant${s.guests.length>1?'s':''}</div></div>
+      <span class="owner-tag ${icons[s.owner]}" style="font-size:11px;">${s.owner==='location'?'Location':s.owner}</span>
     </div>`;
-  }).join('');
-}
+  }).join(''):'<div class="empty"><div class="empty-icon">📭</div><div class="empty-title">Aucun séjour planifié</div></div>';
 
-function renderRevChart(containerId) {
-  const max = Math.max(...REVENUE_DATA);
-  document.getElementById(containerId).innerHTML = REVENUE_DATA.map((v,i) => `
-    <div class="rev-bar-wrap">
-      <div class="rev-bar-val">${v >= 1000 ? (v/1000).toFixed(1)+'k' : v}€</div>
-      <div class="rev-bar" style="height:${Math.round((v/max)*130)}px;background:${i===5?'var(--c-accent)':'var(--c-border2)'};" title="${v}€"></div>
-      <div class="rev-bar-label">${REVENUE_MONTHS[i]}</div>
+  const recent=[...charges].sort((a,b)=>new Date(b.date)-new Date(a.date)).slice(0,4);
+  const icns={Électricité:'⚡',Eau:'💧',Entretien:'🔧',Autre:'📋'};
+  document.getElementById('recent-charges-list').innerHTML=recent.map(c=>`
+    <div class="charge-item">
+      <div class="charge-icon">${icns[c.type]||'📋'}</div>
+      <div class="charge-info"><div class="charge-label">${c.label}</div><div class="charge-meta">${formatDateFr(c.date)} · payé par ${c.paidby}</div></div>
+      <div style="text-align:right;"><div class="charge-amount">${c.amount} €</div><div class="charge-share-txt">${(c.amount/3).toFixed(2)} € / pers.</div></div>
     </div>`).join('');
 }
 
-function updateTodo(cb) {
-  const row = cb.closest('.upcoming-item');
-  if(cb.checked) { row.style.opacity='0.5'; row.style.textDecoration='line-through'; }
-  else { row.style.opacity='1'; row.style.textDecoration='none'; }
-}
-
-// ===== CALENDAR =====
-function renderCalendar() {
-  const label = `${MONTHS[currentMonth.getMonth()]} ${currentMonth.getFullYear()}`;
-  document.getElementById('cal-month-label').textContent = label;
-  const grid = document.getElementById('cal-grid');
-  let html = DAYS.map(d => `<div class="cal-day-header">${d}</div>`).join('');
-  const year = currentMonth.getFullYear();
-  const month = currentMonth.getMonth();
-  const firstDay = new Date(year, month, 1);
-  let startDow = firstDay.getDay(); // 0=Sun
-  startDow = startDow === 0 ? 6 : startDow - 1; // Monday-based
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-  const today = new Date();
-
-  for(let i=0; i<startDow; i++) {
-    const d = new Date(year, month, 1-startDow+i);
-    html += `<div class="cal-day other-month"><div class="cal-date">${d.getDate()}</div></div>`;
-  }
-  for(let d=1; d<=daysInMonth; d++) {
-    const date = new Date(year, month, d);
-    const dateStr = formatDate(date);
-    const isToday = date.toDateString() === today.toDateString();
-    const dayRes = reservations.filter(r => {
-      const ci = new Date(r.checkin), co = new Date(r.checkout);
-      return date >= ci && date < co;
-    });
-    let booksHtml = dayRes.map(r => {
-      const cl = r.source==='Airbnb'?'airbnb':r.source==='Booking'?'booking':'direct';
-      return `<div class="cal-booking ${cl}" onclick="openDetail(${r.id});event.stopPropagation();" title="${r.name}">${r.name.split(' ')[0]}</div>`;
+function renderCalendar(){
+  document.getElementById('cal-month-label').textContent=`${MONTHS[currentMonth.getMonth()]} ${currentMonth.getFullYear()}`;
+  const grid=document.getElementById('cal-grid');
+  let html=DAYS.map(d=>`<div class="cal-day-header">${d}</div>`).join('');
+  const yr=currentMonth.getFullYear(),mo=currentMonth.getMonth();
+  const first=new Date(yr,mo,1);
+  let dow=first.getDay(); dow=dow===0?6:dow-1;
+  const dim=new Date(yr,mo+1,0).getDate();
+  const today=new Date();
+  for(let i=0;i<dow;i++){const d=new Date(yr,mo,1-dow+i);html+=`<div class="cal-day other-month"><div class="cal-date">${d.getDate()}</div></div>`;}
+  for(let d=1;d<=dim;d++){
+    const date=new Date(yr,mo,d);
+    const isT=date.toDateString()===today.toDateString();
+    const ds=sejours.filter(s=>{const ci=new Date(s.checkin),co=new Date(s.checkout);return date>=ci&&date<co;});
+    const evts=ds.map(s=>{
+      const cl=s.owner==='Jérémy'?'jeremy':s.owner==='Julien'?'julien':s.owner==='Manu'?'manu':'location';
+      const lbl=s.owner==='location'?s.tenant:s.owner;
+      return `<div class="cal-evt ${cl}" onclick="openDetailSejour(${s.id});event.stopPropagation();">${lbl}</div>`;
     }).join('');
-    html += `<div class="cal-day${isToday?' today':''}">
-      <div class="cal-date">${d}</div>
-      ${booksHtml}
-    </div>`;
+    html+=`<div class="cal-day${isT?' today':''}"><div class="cal-date">${d}</div>${evts}</div>`;
   }
-  // fill remaining
-  const total = startDow + daysInMonth;
-  const remaining = total % 7 === 0 ? 0 : 7 - (total % 7);
-  for(let i=1; i<=remaining; i++) {
-    html += `<div class="cal-day other-month"><div class="cal-date">${i}</div></div>`;
-  }
-  grid.innerHTML = html;
+  const rem=(dow+dim)%7===0?0:7-(dow+dim)%7;
+  for(let i=1;i<=rem;i++) html+=`<div class="cal-day other-month"><div class="cal-date">${i}</div></div>`;
+  grid.innerHTML=html;
 }
+function changeMonth(dir){currentMonth=new Date(currentMonth.getFullYear(),currentMonth.getMonth()+dir,1);renderCalendar();}
 
-function changeMonth(dir) {
-  currentMonth = new Date(currentMonth.getFullYear(), currentMonth.getMonth()+dir, 1);
-  renderCalendar();
-}
-
-// ===== RESERVATIONS =====
-function renderReservations(data) {
-  const tbody = document.getElementById('reservations-tbody');
-  if(!data.length) {
-    tbody.innerHTML = `<tr><td colspan="9"><div class="empty"><div class="empty-icon">🔍</div><div class="empty-title">Aucune réservation trouvée</div></div></td></tr>`;
-    return;
-  }
-  tbody.innerHTML = data.map(r => {
-    const nights = Math.round((new Date(r.checkout)-new Date(r.checkin))/(1000*60*60*24));
-    const sc = {airbnb:'#F97316',booking:'#3B82F6',direct:'#10B981'};
-    const srcColor = r.source==='Airbnb'?sc.airbnb:r.source==='Booking'?sc.booking:sc.direct;
-    const statusBadge = {
-      'confirmée':'badge-success','en attente':'badge-warning','terminée':'badge-neutral','annulée':'badge-danger'
-    }[r.status] || 'badge-neutral';
-    const initials = r.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase();
-    const guestsDisplay = r.guests.length ? r.guests.slice(0,2).join(', ') + (r.guests.length>2 ? ` +${r.guests.length-2}` : '') : '—';
-    return `<tr onclick="openDetail(${r.id})" style="cursor:pointer;">
-      <td><div class="guest-info">
-        <div class="avatar">${initials}</div>
-        <div><div class="guest-name">${r.name}</div><div class="guest-email">${r.email}</div></div>
+function renderSejours(){
+  let data=[...sejours];
+  if(sejourFilter) data=data.filter(s=>(s.owner+s.tenant+s.guests.join('')).toLowerCase().includes(sejourFilter));
+  if(sejourOwnerFilter){if(sejourOwnerFilter==='location')data=data.filter(s=>s.owner==='location');else data=data.filter(s=>s.owner===sejourOwnerFilter);}
+  const tbody=document.getElementById('sejours-tbody');
+  if(!data.length){tbody.innerHTML=`<tr><td colspan="8"><div class="empty"><div class="empty-icon">🔍</div><div class="empty-title">Aucun séjour trouvé</div></div></td></tr>`;return;}
+  const ownerCl={'Jérémy':'tag-jeremy','Julien':'tag-julien','Manu':'tag-manu','location':'badge-success'};
+  const ownerBg={'Jérémy':'var(--c-jeremy-bg)','Julien':'var(--c-julien-bg)','Manu':'var(--c-manu-bg)','location':'#D1FAE5'};
+  const ownerTx={'Jérémy':'var(--c-jeremy)','Julien':'var(--c-julien)','Manu':'var(--c-manu)','location':'#065F46'};
+  tbody.innerHTML=data.sort((a,b)=>new Date(b.checkin)-new Date(a.checkin)).map(s=>{
+    const n=nights(s.checkin,s.checkout);
+    const lbl=s.owner==='location'?s.tenant:s.owner;
+    const gs=s.guests.slice(0,2).join(', ')+(s.guests.length>2?` +${s.guests.length-2}`:'')||'—';
+    return `<tr onclick="openDetailSejour(${s.id})" style="cursor:pointer;">
+      <td><div style="display:flex;align-items:center;gap:10px;">
+        <div class="avatar" style="background:${ownerBg[s.owner]};color:${ownerTx[s.owner]};">${lbl.substring(0,2).toUpperCase()}</div>
+        <div><div style="font-weight:500;">${lbl}</div><span class="owner-tag ${ownerCl[s.owner]}" style="font-size:11px;">${s.owner==='location'?'Location':s.owner}</span></div>
       </div></td>
-      <td><span style="font-size:13px;color:var(--c-text2);">${guestsDisplay}</span></td>
-      <td style="font-size:13px;">${formatDateFr(r.checkin)}</td>
-      <td style="font-size:13px;">${formatDateFr(r.checkout)}</td>
-      <td style="font-weight:500;">${nights}</td>
-      <td><div style="display:flex;align-items:center;gap:6px;"><div class="source-dot" style="background:${srcColor};"></div>${r.source}</div></td>
-      <td style="font-weight:600;">${r.amount} €</td>
-      <td><span class="badge ${statusBadge}">${r.status}</span></td>
-      <td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openDetail(${r.id})">→</button></td>
+      <td style="font-size:13px;color:var(--c-text2);">${gs}</td>
+      <td>${formatDateFr(s.checkin)}</td><td>${formatDateFr(s.checkout)}</td>
+      <td style="font-weight:600;">${n}</td>
+      <td><span class="badge ${s.owner==='location'?'badge-success':'badge-neutral'}">${s.owner==='location'?'Location directe':'Usage propre'}</span></td>
+      <td style="font-size:12.5px;color:var(--c-text3);max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${s.notes||'—'}</td>
+      <td><button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();openDetailSejour(${s.id})">→</button></td>
     </tr>`;
   }).join('');
 }
+function filterSejours(v){sejourFilter=v.toLowerCase();renderSejours();}
+function filterSejourOwner(v){sejourOwnerFilter=v;renderSejours();}
 
-let filterText = '', filterStatus = '', filterSource = '';
-function filterReservations(val) { filterText = val.toLowerCase(); applyFilters(); }
-function filterByStatus(val) { filterStatus = val; applyFilters(); }
-function filterBySource(val) { filterSource = val; applyFilters(); }
-function applyFilters() {
-  let data = reservations;
-  if(filterText) data = data.filter(r => r.name.toLowerCase().includes(filterText) || r.email.toLowerCase().includes(filterText));
-  if(filterStatus) data = data.filter(r => r.status === filterStatus);
-  if(filterSource) data = data.filter(r => r.source === filterSource);
-  renderReservations(data);
-}
-
-// ===== FINANCES =====
-function renderFinanceChart() { renderRevChart('rev-chart-finance'); }
-function renderDonut() {
-  const canvas = document.getElementById('donut-canvas');
-  if(!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const slices = [{v:52,c:'#F97316'},{v:31,c:'#3B82F6'},{v:17,c:'#10B981'}];
-  let start = -Math.PI/2;
-  const cx=70,cy=70,r=55,ir=35;
-  ctx.clearRect(0,0,140,140);
-  slices.forEach(s => {
-    const end = start + (s.v/100)*2*Math.PI;
-    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,start,end); ctx.closePath();
-    ctx.fillStyle=s.c; ctx.fill();
-    start=end;
-  });
-  ctx.beginPath(); ctx.arc(cx,cy,ir,0,2*Math.PI); ctx.fillStyle='white'; ctx.fill();
-  ctx.fillStyle='#1A1916'; ctx.font='bold 14px Syne,sans-serif'; ctx.textAlign='center'; ctx.textBaseline='middle';
-  ctx.fillText('17 840€',cx,cy-6);
-  ctx.fillStyle='#9B9890'; ctx.font='11px DM Sans,sans-serif'; ctx.fillText('total',cx,cy+10);
-}
-function renderFinanceTable() {
-  document.getElementById('finance-tbody').innerHTML = reservations.filter(r=>r.status==='terminée'||r.status==='confirmée').map(r => {
-    const comm = r.source==='Airbnb'?0.03:r.source==='Booking'?0.15:0;
-    const commAmt = Math.round(r.amount*comm);
-    return `<tr>
-      <td style="font-size:13px;">${formatDateFr(r.checkin)}</td>
-      <td>${r.name}</td>
-      <td>${r.source}</td>
-      <td style="font-weight:600;">${r.amount} €</td>
-      <td style="color:var(--c-danger);">${commAmt>0?'-'+commAmt+' €':'—'}</td>
-      <td style="font-weight:600;color:var(--c-success);">${r.amount-commAmt} €</td>
-      <td><span class="badge ${r.status==='terminée'?'badge-success':'badge-accent'}">${r.status}</span></td>
-    </tr>`;
+function renderCharges(){
+  const yr=document.getElementById('charge-year-filter')?.value||'2025';
+  let data=charges.filter(c=>c.date.startsWith(yr));
+  if(chargeTypeFilter) data=data.filter(c=>c.type===chargeTypeFilter);
+  const total=data.reduce((a,c)=>a+c.amount,0);
+  const byOwner={Jérémy:0,Julien:0,Manu:0};
+  data.forEach(c=>{if(byOwner[c.paidby]!==undefined)byOwner[c.paidby]+=c.amount;});
+  const share=total/3;
+  document.getElementById('charges-owner-stats').innerHTML=OWNERS.map(o=>{
+    const paid=byOwner[o],diff=paid-share;
+    return `<div class="share-card share-${o.toLowerCase()}">
+      <div class="share-name">${o}</div>
+      <div class="share-amount">${paid.toFixed(0)} €</div>
+      <div class="share-sub">avancés · régularisation <strong>${diff>=0?'+':''}${diff.toFixed(0)} €</strong></div>
+    </div>`;
   }).join('');
+  const icns={Électricité:'⚡',Eau:'💧',Entretien:'🔧',Autre:'📋'};
+  const listEl=document.getElementById('charges-list');
+  if(!data.length){listEl.innerHTML='<div class="empty"><div class="empty-icon">🧾</div><div class="empty-title">Aucune charge enregistrée</div></div>';return;}
+  listEl.innerHTML=data.sort((a,b)=>new Date(b.date)-new Date(a.date)).map(c=>`
+    <div class="charge-item">
+      <div class="charge-icon">${icns[c.type]||'📋'}</div>
+      <div class="charge-info"><div class="charge-label">${c.label}</div><div class="charge-meta">${formatDateFr(c.date)} · payé par <strong>${c.paidby}</strong>${c.notes?' · '+c.notes:''}</div></div>
+      <div style="text-align:right;"><div class="charge-amount">${c.amount} €</div><div class="charge-share-txt">${(c.amount/3).toFixed(2)} € / pers.</div></div>
+      <button class="btn btn-ghost btn-sm" style="margin-left:8px;color:var(--c-text3);" onclick="deleteCharge(${c.id})">✕</button>
+    </div>`).join('');
 }
+function filterChargeType(v){chargeTypeFilter=v;renderCharges();}
+function deleteCharge(id){if(!confirm('Supprimer cette charge ?'))return;charges=charges.filter(c=>c.id!==id);renderCharges();renderDashboard();}
 
-// ===== MODAL =====
-function openNewReservation() {
-  editingId = null;
-  document.getElementById('modal-res-title').textContent = 'Nouvelle réservation';
-  ['f-name','f-email','f-phone','f-amount','f-notes'].forEach(id => document.getElementById(id).value='');
-  document.getElementById('f-source').value='Airbnb';
-  document.getElementById('f-status').value='confirmée';
-  document.getElementById('f-checkin').value='';
-  document.getElementById('f-checkout').value='';
-  document.getElementById('guests-list').innerHTML='';
-  document.getElementById('modal-reservation').classList.add('open');
-}
-function closeModal(id) { document.getElementById(id).classList.remove('open'); }
-function addGuestField(value='') {
-  const list = document.getElementById('guests-list');
-  const div = document.createElement('div');
-  div.className='guest-row';
-  div.innerHTML=`<span style="font-size:14px;">👤</span><input type="text" placeholder="Prénom Nom" value="${value}"><button class="remove-guest" onclick="this.parentElement.remove()">✕</button>`;
-  list.appendChild(div);
-}
-function saveReservation() {
-  const name = document.getElementById('f-name').value.trim();
-  if(!name) { alert('Le nom du voyageur est requis.'); return; }
-  const checkin = document.getElementById('f-checkin').value;
-  const checkout = document.getElementById('f-checkout').value;
-  if(!checkin||!checkout) { alert('Les dates sont requises.'); return; }
-  const guests = [...document.querySelectorAll('#guests-list .guest-row input')].map(i=>i.value.trim()).filter(Boolean);
-  const res = {
-    id: editingId || Date.now(),
-    name, email: document.getElementById('f-email').value,
-    phone: document.getElementById('f-phone').value,
-    source: document.getElementById('f-source').value,
-    checkin, checkout,
-    amount: parseInt(document.getElementById('f-amount').value)||0,
-    status: document.getElementById('f-status').value,
-    notes: document.getElementById('f-notes').value,
-    guests
-  };
-  if(editingId) { const idx=reservations.findIndex(r=>r.id===editingId); if(idx>-1) reservations[idx]=res; }
-  else reservations.push(res);
-  closeModal('modal-reservation');
-  renderUpcoming(); renderReservations(reservations);
-}
+function renderBilan(){
+  const yr=document.getElementById('bilan-year').value;
+  const data=charges.filter(c=>c.date.startsWith(yr));
+  const totalC=data.reduce((a,c)=>a+c.amount,0);
+  const share=totalC/3;
+  const byOwner={Jérémy:0,Julien:0,Manu:0};
+  data.forEach(c=>{if(byOwner[c.paidby]!==undefined)byOwner[c.paidby]+=c.amount;});
 
-function openDetail(id) {
-  const r = reservations.find(x=>x.id===id);
-  if(!r) return;
-  currentDetailId = id;
-  const nights = Math.round((new Date(r.checkout)-new Date(r.checkin))/(1000*60*60*24));
-  const statusBadge = {'confirmée':'badge-success','en attente':'badge-warning','terminée':'badge-neutral','annulée':'badge-danger'}[r.status]||'badge-neutral';
-  const guestsHtml = r.guests.length ? r.guests.map(g=>`<div class="guest-chip"><div class="chip-avatar">${g.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase()}</div>${g}</div>`).join('') : '<span style="color:var(--c-text3);font-size:13px;">Aucun accompagnant renseigné</span>';
-  document.getElementById('detail-title').textContent = r.name;
-  document.getElementById('detail-body').innerHTML = `
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
-      <span class="badge ${statusBadge}">${r.status}</span>
-      <span class="badge badge-neutral">${r.source}</span>
+  document.getElementById('bilan-owner-cards').innerHTML=OWNERS.map(o=>{
+    const paid=byOwner[o],diff=paid-share;
+    return `<div class="share-card share-${o.toLowerCase()}">
+      <div class="share-name">${o}</div>
+      <div class="share-amount">${paid.toFixed(0)} €</div>
+      <div class="share-sub">avancés en ${yr}</div>
+      <div style="margin-top:8px;font-size:14px;font-weight:700;color:${diff>=0?'var(--c-success)':'var(--c-danger)'};">
+        ${diff>=0?'À recevoir':'À payer'} : ${Math.abs(diff).toFixed(2)} €
+      </div>
+    </div>`;
+  }).join('');
+
+  const monthly=Array(12).fill(0);
+  data.forEach(c=>{const m=parseInt(c.date.split('-')[1])-1;monthly[m]+=c.amount;});
+  const maxV=Math.max(...monthly,1);
+  document.getElementById('bilan-chart').innerHTML=monthly.map((v,i)=>`
+    <div class="rev-bar-wrap">
+      <div class="rev-bar-val">${v>0?v+'€':''}</div>
+      <div class="rev-bar" style="height:${Math.round((v/maxV)*140)}px;background:${v>0?'#EAB308':'var(--c-border)'};" title="${MONTHS[i]}: ${v}€"></div>
+      <div class="rev-bar-label">${MONTHS[i].substring(0,3)}</div>
+    </div>`).join('');
+
+  const byType={};
+  data.forEach(c=>{byType[c.type]=(byType[c.type]||0)+c.amount;});
+  const icns={Électricité:'⚡',Eau:'💧',Entretien:'🔧',Autre:'📋'};
+  document.getElementById('bilan-type-breakdown').innerHTML=Object.entries(byType).sort((a,b)=>b[1]-a[1]).map(([t,v])=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--c-border);">
+      <div class="charge-icon" style="font-size:14px;">${icns[t]||'📋'}</div>
+      <div style="flex:1;font-weight:500;">${t}</div>
+      <div style="font-weight:700;">${v.toFixed(0)} €</div>
+      <div style="color:var(--c-text3);font-size:12px;min-width:40px;text-align:right;">${totalC>0?Math.round(v/totalC*100):0}%</div>
+    </div>`).join('');
+
+  const rows=OWNERS.map(o=>{
+    const paid=byOwner[o],diff=paid-share;
+    const cl=o==='Jérémy'?'tag-jeremy':o==='Julien'?'tag-julien':'tag-manu';
+    return `<tr><td><span class="owner-tag ${cl}">${o}</span></td><td style="font-weight:600;">${paid.toFixed(2)} €</td><td>${share.toFixed(2)} €</td>
+      <td style="font-weight:700;color:${diff>=0?'var(--c-success)':'var(--c-danger)'};">${diff>=0?'Reçoit':'Doit'} ${Math.abs(diff).toFixed(2)} €</td></tr>`;
+  }).join('');
+  document.getElementById('bilan-recap').innerHTML=`
+    <div style="margin-bottom:12px;padding:12px 14px;background:var(--c-surface2);border-radius:10px;font-size:13px;color:var(--c-text2);">
+      Total charges ${yr} : <strong>${totalC.toFixed(2)} €</strong> · Part théorique par propriétaire : <strong>${share.toFixed(2)} €</strong>
     </div>
-    <div class="detail-grid" style="margin-bottom:20px;">
-      <div class="detail-item"><div class="detail-key">Arrivée</div><div class="detail-val">${formatDateFr(r.checkin)}</div></div>
-      <div class="detail-item"><div class="detail-key">Départ</div><div class="detail-val">${formatDateFr(r.checkout)}</div></div>
-      <div class="detail-item"><div class="detail-key">Durée</div><div class="detail-val">${nights} nuits</div></div>
-      <div class="detail-item"><div class="detail-key">Montant</div><div class="detail-val" style="color:var(--c-success);font-weight:700;">${r.amount} €</div></div>
-      <div class="detail-item"><div class="detail-key">Email</div><div class="detail-val" style="font-size:13px;">${r.email||'—'}</div></div>
-      <div class="detail-item"><div class="detail-key">Téléphone</div><div class="detail-val">${r.phone||'—'}</div></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Propriétaire</th><th>A avancé</th><th>Doit payer (⅓)</th><th>Régularisation</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
+}
+
+// MODALS
+function openNewSejour(){
+  editingSejourId=null;
+  document.getElementById('modal-sej-title').textContent='Nouveau séjour';
+  ['f-owner','f-tenant','f-checkin','f-checkout','f-notes'].forEach(id=>{if(id==='f-owner')document.getElementById(id).value='Jérémy';else document.getElementById(id).value='';});
+  document.getElementById('guests-list').innerHTML='';
+  document.getElementById('modal-sejour').classList.add('open');
+}
+function saveSejour(){
+  const ci=document.getElementById('f-checkin').value,co=document.getElementById('f-checkout').value;
+  if(!ci||!co){alert('Les dates sont requises.');return;}
+  const guests=[...document.querySelectorAll('#guests-list .guest-row input')].map(i=>i.value.trim()).filter(Boolean);
+  const s={id:editingSejourId||Date.now(),owner:document.getElementById('f-owner').value,tenant:document.getElementById('f-tenant').value,checkin:ci,checkout:co,guests,notes:document.getElementById('f-notes').value};
+  if(editingSejourId){const idx=sejours.findIndex(x=>x.id===editingSejourId);if(idx>-1)sejours[idx]=s;}else sejours.push(s);
+  closeModal('modal-sejour');renderDashboard();renderSejours();
+}
+function openDetailSejour(id){
+  const s=sejours.find(x=>x.id===id);if(!s)return;
+  currentDetailId=id;
+  const n=nights(s.checkin,s.checkout);
+  const lbl=s.owner==='location'?s.tenant:s.owner;
+  const cl=s.owner==='Jérémy'?'tag-jeremy':s.owner==='Julien'?'tag-julien':s.owner==='Manu'?'tag-manu':'badge-success';
+  const gh=s.guests.length?s.guests.map(g=>`<div class="guest-chip"><div class="chip-avatar">${g.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase()}</div>${g}</div>`).join(''):'<span style="color:var(--c-text3);">Aucun accompagnant</span>';
+  document.getElementById('detail-title').textContent=lbl;
+  document.getElementById('detail-body').innerHTML=`
+    <div style="display:flex;gap:8px;margin-bottom:16px;"><span class="owner-tag ${cl}">${s.owner==='location'?'Location directe':s.owner}</span></div>
+    <div class="detail-grid" style="margin-bottom:14px;">
+      <div><div class="detail-key">Arrivée</div><div class="detail-val">${formatDateFr(s.checkin)}</div></div>
+      <div><div class="detail-key">Départ</div><div class="detail-val">${formatDateFr(s.checkout)}</div></div>
+      <div><div class="detail-key">Durée</div><div class="detail-val">${n} nuit${n>1?'s':''}</div></div>
     </div>
     <div class="divider"></div>
-    <div style="margin-bottom:16px;">
-      <div style="font-size:12.5px;font-weight:600;color:var(--c-text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:10px;">👥 Personnes présentes (${r.guests.length + 1} au total)</div>
-      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px;">
-        <div class="guest-chip" style="background:var(--c-accent-light);border-color:var(--c-accent);">
-          <div class="chip-avatar" style="background:var(--c-accent);color:white;">${r.name.split(' ').map(w=>w[0]).join('').substring(0,2).toUpperCase()}</div>
-          ${r.name} <span style="font-size:11px;color:var(--c-accent);margin-left:2px;">(principal)</span>
-        </div>
+    <div style="margin-bottom:12px;">
+      <div style="font-size:12px;font-weight:600;color:var(--c-text3);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">👥 Personnes présentes (${s.guests.length+1} au total)</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:6px;">
+        <div class="guest-chip" style="background:var(--c-accent-light);border-color:var(--c-accent);"><div class="chip-avatar" style="background:var(--c-accent);color:white;">${lbl.substring(0,2).toUpperCase()}</div>${lbl} <span style="font-size:11px;color:var(--c-accent);margin-left:2px;">(principal)</span></div>
       </div>
-      <div class="guests-chips">${guestsHtml}</div>
+      <div class="guests-chips">${gh}</div>
     </div>
-    ${r.notes ? `<div class="divider"></div><div><div style="font-size:12.5px;font-weight:600;color:var(--c-text2);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">📝 Notes</div><p style="font-size:13.5px;color:var(--c-text2);">${r.notes}</p></div>` : ''}
+    ${s.notes?`<div class="divider"></div><div><div class="detail-key" style="margin-bottom:5px;">Notes</div><p style="font-size:13.5px;color:var(--c-text2);">${s.notes}</p></div>`:''}
   `;
   document.getElementById('modal-detail').classList.add('open');
 }
-function deleteCurrentRes() {
-  if(!confirm('Supprimer cette réservation ?')) return;
-  reservations = reservations.filter(r=>r.id!==currentDetailId);
-  closeModal('modal-detail');
-  renderUpcoming(); renderReservations(reservations);
+function deleteCurrentSejour(){if(!confirm('Supprimer ce séjour ?'))return;sejours=sejours.filter(s=>s.id!==currentDetailId);closeModal('modal-detail');renderDashboard();renderSejours();}
+function editCurrentSejour(){
+  const s=sejours.find(x=>x.id===currentDetailId);if(!s)return;
+  closeModal('modal-detail');editingSejourId=s.id;
+  document.getElementById('modal-sej-title').textContent='Modifier le séjour';
+  document.getElementById('f-owner').value=s.owner;document.getElementById('f-tenant').value=s.tenant;
+  document.getElementById('f-checkin').value=s.checkin;document.getElementById('f-checkout').value=s.checkout;
+  document.getElementById('f-notes').value=s.notes;
+  document.getElementById('guests-list').innerHTML='';s.guests.forEach(g=>addGuestField(g));
+  document.getElementById('modal-sejour').classList.add('open');
 }
-function editCurrentRes() {
-  const r = reservations.find(x=>x.id===currentDetailId);
-  if(!r) return;
-  closeModal('modal-detail');
-  editingId = r.id;
-  document.getElementById('modal-res-title').textContent = 'Modifier la réservation';
-  document.getElementById('f-name').value=r.name;
-  document.getElementById('f-email').value=r.email;
-  document.getElementById('f-phone').value=r.phone;
-  document.getElementById('f-source').value=r.source;
-  document.getElementById('f-checkin').value=r.checkin;
-  document.getElementById('f-checkout').value=r.checkout;
-  document.getElementById('f-amount').value=r.amount;
-  document.getElementById('f-status').value=r.status;
-  document.getElementById('f-notes').value=r.notes;
-  document.getElementById('guests-list').innerHTML='';
-  r.guests.forEach(g=>addGuestField(g));
-  document.getElementById('modal-reservation').classList.add('open');
+function openNewCharge(type){
+  document.getElementById('modal-chg-title').textContent=type?`Ajouter — ${type}`:'Ajouter une charge';
+  document.getElementById('c-type').value=type||'Électricité';
+  document.getElementById('c-label').value='';document.getElementById('c-amount').value='';
+  document.getElementById('c-date').value=new Date().toISOString().split('T')[0];
+  document.getElementById('c-paidby').value='Jérémy';document.getElementById('c-notes').value='';
+  document.getElementById('modal-charge').classList.add('open');
 }
+function saveCharge(){
+  const amount=parseFloat(document.getElementById('c-amount').value);
+  const label=document.getElementById('c-label').value.trim();
+  if(!label||isNaN(amount)||amount<=0){alert('Libellé et montant requis.');return;}
+  charges.push({id:Date.now(),type:document.getElementById('c-type').value,label,amount,date:document.getElementById('c-date').value,paidby:document.getElementById('c-paidby').value,notes:document.getElementById('c-notes').value});
+  closeModal('modal-charge');renderCharges();renderDashboard();
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function addGuestField(v=''){
+  const d=document.createElement('div');d.className='guest-row';
+  d.innerHTML=`<span>👤</span><input type="text" placeholder="Prénom Nom" value="${v}"><button class="remove-guest" onclick="this.parentElement.remove()">✕</button>`;
+  document.getElementById('guests-list').appendChild(d);
+}
+function nights(a,b){return Math.round((new Date(b)-new Date(a))/(864e5));}
+function formatDateFr(s){const d=new Date(s);return `${d.getDate()} ${MONTHS[d.getMonth()].substring(0,3)}. ${d.getFullYear()}`;}
 
-// ===== UTILS =====
-function formatDate(d) { return d.toISOString().split('T')[0]; }
-function formatDateFr(s) {
-  const d=new Date(s); return `${d.getDate()} ${MONTHS[d.getMonth()].substring(0,3)}. ${d.getFullYear()}`;
-}
-
-// ===== INIT =====
-renderUpcoming();
-renderRevChart('rev-chart');
+renderDashboard();
 </script>
 </body>
 </html>

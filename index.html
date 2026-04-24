@@ -509,7 +509,7 @@ textarea{resize:vertical;min-height:65px}
 </div>
 
 <script type="module">
-// ===== FIREBASE =====
+// Charge Firebase et expose les fonctions globalement
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
@@ -521,27 +521,44 @@ const firebaseConfig = {
   messagingSenderId: "645533267068",
   appId: "1:645533267068:web:edec23f6b400914c4705f9"
 };
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getFirestore(firebaseApp);
+const fbApp = initializeApp(firebaseConfig);
+const db = getFirestore(fbApp);
 const DATA_DOC = doc(db, 'bussang', 'data');
 
-// ===== PERSISTANCE FIREBASE (+ localStorage comme cache offline) =====
+// Expose Firebase save/load au script global via window
+window._fbSave = async function(payload) {
+  try {
+    await setDoc(DATA_DOC, payload);
+    return true;
+  } catch(e) { console.error('FB save:', e); return false; }
+};
+window._fbLoad = async function() {
+  try {
+    const snap = await getDoc(DATA_DOC);
+    return snap.exists() ? snap.data() : null;
+  } catch(e) { console.error('FB load:', e); return null; }
+};
+window._fbClear = async function(cfg) {
+  try { await setDoc(DATA_DOC, {sejours:[],charges:[],apports:[],cfg}); } catch(e) {}
+};
+
+// Déclenche l'init de l'app une fois Firebase prêt
+window._fbReady = true;
+if(window._appInit) window._appInit();
+</script>
+
+<script>
+
+// ===== PERSISTANCE FIREBASE + cache localStorage =====
 const LS = {
   async save() {
     const payload = { sejours, charges, apports, cfg };
-    // Sauvegarde locale immédiate (cache offline)
     localStorage.setItem('bussang_cache', JSON.stringify(payload));
-    // Sauvegarde Firebase
-    try {
-      await setDoc(DATA_DOC, payload);
-      showToast('💾 Sauvegardé');
-    } catch(e) {
-      console.error('Firebase save error:', e);
-      showToast('⚠️ Sauvegarde locale uniquement');
-    }
+    const ok = window._fbSave ? await window._fbSave(payload) : false;
+    showToast(ok ? '💾 Sauvegardé' : '💾 Sauvegardé localement');
   },
   async load() {
-    // 1. Charger le cache local d'abord (affichage immédiat)
+    // Cache local d'abord pour affichage immédiat
     const cache = localStorage.getItem('bussang_cache');
     if(cache) {
       try {
@@ -552,29 +569,23 @@ const LS = {
         if(d.cfg) cfg = {...cfg, ...d.cfg};
       } catch(e) {}
     }
-    // 2. Charger depuis Firebase (données fraîches)
-    try {
-      const snap = await getDoc(DATA_DOC);
-      if(snap.exists()) {
-        const d = snap.data();
+    // Puis Firebase pour données fraîches
+    if(window._fbLoad) {
+      const d = await window._fbLoad();
+      if(d) {
         if(d.sejours) sejours = d.sejours;
         if(d.charges) charges = d.charges;
         if(d.apports) apports = d.apports;
         if(d.cfg) cfg = {...cfg, ...d.cfg};
-        // Mettre à jour le cache local
         localStorage.setItem('bussang_cache', JSON.stringify({sejours, charges, apports, cfg}));
-        // Rafraîchir l'affichage avec les données Firebase
         populateYearSelectors();
         renderDashboard();
       }
-    } catch(e) {
-      console.error('Firebase load error:', e);
-      showToast('⚠️ Mode hors-ligne — données locales');
     }
   },
   clear() {
     localStorage.removeItem('bussang_cache');
-    setDoc(DATA_DOC, { sejours:[], charges:[], apports:[], cfg }).catch(()=>{});
+    if(window._fbClear) window._fbClear(cfg);
   }
 };
 
@@ -1118,9 +1129,13 @@ function populateYearSelectors() {
 }
 
 // Charger depuis Firebase au démarrage
-LS.load();
-populateYearSelectors();
-renderDashboard();
+window._appInit = function() {
+  LS.load();
+  populateYearSelectors();
+  renderDashboard();
+};
+// Si Firebase déjà prêt (script module déjà exécuté), on lance directement
+if(window._fbReady) window._appInit();
 </script>
 </body>
 </html>

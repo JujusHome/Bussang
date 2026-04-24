@@ -508,36 +508,79 @@ textarea{resize:vertical;min-height:65px}
   </div>
 </div>
 
-<script>
+<script type="module">
+// ===== FIREBASE =====
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyANVlL1N1rzUkVR7ZcPN8-t6mtD9fRy5Cc",
+  authDomain: "bussang-48f44.firebaseapp.com",
+  projectId: "bussang-48f44",
+  storageBucket: "bussang-48f44.firebasestorage.app",
+  messagingSenderId: "645533267068",
+  appId: "1:645533267068:web:edec23f6b400914c4705f9"
+};
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp);
+const DATA_DOC = doc(db, 'bussang', 'data');
+
+// ===== PERSISTANCE FIREBASE (+ localStorage comme cache offline) =====
+const LS = {
+  async save() {
+    const payload = { sejours, charges, apports, cfg };
+    // Sauvegarde locale immédiate (cache offline)
+    localStorage.setItem('bussang_cache', JSON.stringify(payload));
+    // Sauvegarde Firebase
+    try {
+      await setDoc(DATA_DOC, payload);
+      showToast('💾 Sauvegardé');
+    } catch(e) {
+      console.error('Firebase save error:', e);
+      showToast('⚠️ Sauvegarde locale uniquement');
+    }
+  },
+  async load() {
+    // 1. Charger le cache local d'abord (affichage immédiat)
+    const cache = localStorage.getItem('bussang_cache');
+    if(cache) {
+      try {
+        const d = JSON.parse(cache);
+        if(d.sejours) sejours = d.sejours;
+        if(d.charges) charges = d.charges;
+        if(d.apports) apports = d.apports;
+        if(d.cfg) cfg = {...cfg, ...d.cfg};
+      } catch(e) {}
+    }
+    // 2. Charger depuis Firebase (données fraîches)
+    try {
+      const snap = await getDoc(DATA_DOC);
+      if(snap.exists()) {
+        const d = snap.data();
+        if(d.sejours) sejours = d.sejours;
+        if(d.charges) charges = d.charges;
+        if(d.apports) apports = d.apports;
+        if(d.cfg) cfg = {...cfg, ...d.cfg};
+        // Mettre à jour le cache local
+        localStorage.setItem('bussang_cache', JSON.stringify({sejours, charges, apports, cfg}));
+        // Rafraîchir l'affichage avec les données Firebase
+        populateYearSelectors();
+        renderDashboard();
+      }
+    } catch(e) {
+      console.error('Firebase load error:', e);
+      showToast('⚠️ Mode hors-ligne — données locales');
+    }
+  },
+  clear() {
+    localStorage.removeItem('bussang_cache');
+    setDoc(DATA_DOC, { sejours:[], charges:[], apports:[], cfg }).catch(()=>{});
+  }
+};
+
 const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
 const DAYS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 const OWNERS=['Jérémy','Julien','Manu'];
-
-// ===== PERSISTANCE localStorage =====
-const LS = {
-  save() {
-    localStorage.setItem('bussang_sejours', JSON.stringify(sejours));
-    localStorage.setItem('bussang_charges', JSON.stringify(charges));
-    localStorage.setItem('bussang_apports', JSON.stringify(apports));
-    localStorage.setItem('bussang_cfg', JSON.stringify(cfg));
-  },
-  load() {
-    try {
-      const s = localStorage.getItem('bussang_sejours');
-      const c = localStorage.getItem('bussang_charges');
-      const a = localStorage.getItem('bussang_apports');
-      const k = localStorage.getItem('bussang_cfg');
-      if(s) sejours = JSON.parse(s);
-      if(c) charges = JSON.parse(c);
-      if(a) apports = JSON.parse(a);
-      if(k) cfg = {...cfg, ...JSON.parse(k)};
-      return !!(s || c || a); // true = données existantes chargées
-    } catch(e) { return false; }
-  },
-  clear() {
-    ['bussang_sejours','bussang_charges','bussang_apports','bussang_cfg'].forEach(k=>localStorage.removeItem(k));
-  }
-};
 
 // ===== PARAMÈTRES =====
 let cfg = {
@@ -1074,7 +1117,7 @@ function populateYearSelectors() {
   });
 }
 
-// Charger les données sauvegardées (écrase les données démo si localStorage présent)
+// Charger depuis Firebase au démarrage
 LS.load();
 populateYearSelectors();
 renderDashboard();

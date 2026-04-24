@@ -513,62 +513,46 @@ const MONTHS=['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août'
 const DAYS=['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'];
 const OWNERS=['Jérémy','Julien','Manu'];
 
-// ===== PARAMÈTRES =====
-let cfg = {
-  mensualite_proprietaire: 250,    // € / mois / propriétaire
-  mensualite_edf: 80,              // mensualité EDF fixe
-  credit_immo: 657.73,             // crédit immobilier mensuel
-  assurance: 45.56,
-  frais_bancaires: 12,
-  solde_initial: 0,                // solde de départ du compte
+// ===== PERSISTANCE localStorage =====
+const LS = {
+  save() {
+    localStorage.setItem('bussang_sejours', JSON.stringify(sejours));
+    localStorage.setItem('bussang_charges', JSON.stringify(charges));
+    localStorage.setItem('bussang_apports', JSON.stringify(apports));
+    localStorage.setItem('bussang_cfg', JSON.stringify(cfg));
+  },
+  load() {
+    try {
+      const s = localStorage.getItem('bussang_sejours');
+      const c = localStorage.getItem('bussang_charges');
+      const a = localStorage.getItem('bussang_apports');
+      const k = localStorage.getItem('bussang_cfg');
+      if(s) sejours = JSON.parse(s);
+      if(c) charges = JSON.parse(c);
+      if(a) apports = JSON.parse(a);
+      if(k) cfg = {...cfg, ...JSON.parse(k)};
+      return !!(s || c || a); // true = données existantes chargées
+    } catch(e) { return false; }
+  },
+  clear() {
+    ['bussang_sejours','bussang_charges','bussang_apports','bussang_cfg'].forEach(k=>localStorage.removeItem(k));
+  }
 };
 
-// ===== DONNÉES =====
-let sejours = [
-  {id:1,owner:'Jérémy',tenant:'',checkin:'2026-01-02',checkout:'2026-01-06',guests:['Sophie Renard','Lucas Renard'],notes:'Nouvel an',elec:150,elec_status:'non_remboursé'},
-  {id:2,owner:'Julien',tenant:'',checkin:'2026-02-14',checkout:'2026-02-17',guests:['Isabelle Petit'],notes:'Week-end Saint-Valentin',elec:45,elec_status:'remboursé'},
-  {id:3,owner:'Manu',tenant:'',checkin:'2026-04-03',checkout:'2026-04-07',guests:['Céline Dupuis','Tom Dupuis'],notes:'Vacances Pâques',elec:68,elec_status:'non_remboursé'},
-  {id:4,owner:'Jérémy',tenant:'',checkin:'2026-07-04',checkout:'2026-07-11',guests:['Sophie Renard','Arthur Renard'],notes:'Vacances été',elec:0,elec_status:'non_remboursé'},
-  {id:5,owner:'Julien',tenant:'',checkin:'2026-08-01',checkout:'2026-08-10',guests:['Isabelle Petit','Théo Petit'],notes:'',elec:0,elec_status:'non_remboursé'},
-  {id:6,owner:'location',tenant:'Famille Martin',checkin:'2026-07-14',checkout:'2026-07-21',guests:['Martin Paul','Martin Anne','Martin Lucie'],notes:'Location 800€',elec:0,elec_status:'non_remboursé'},
-];
+// ===== PARAMÈTRES =====
+let cfg = {
+  mensualite_proprietaire: 250,
+  mensualite_edf: 80,
+  credit_immo: 657.73,
+  assurance: 45.56,
+  frais_bancaires: 12,
+  solde_initial: 0,
+};
 
-let charges = [
-  {id:1,type:'Électricité',label:'Mensualité EDF — Janv.',amount:80,date:'2026-01-05',paidby:'compte',notes:''},
-  {id:2,type:'Électricité',label:'Mensualité EDF — Fév.',amount:80,date:'2026-02-05',paidby:'compte',notes:''},
-  {id:3,type:'Électricité',label:'Mensualité EDF — Mars',amount:80,date:'2026-03-05',paidby:'compte',notes:''},
-  {id:4,type:'Électricité',label:'Mensualité EDF — Avr.',amount:80,date:'2026-04-05',paidby:'compte',notes:''},
-  {id:5,type:'Crédit immobilier',label:'Crédit — Janv.',amount:657.73,date:'2026-01-05',paidby:'compte',notes:''},
-  {id:6,type:'Crédit immobilier',label:'Crédit — Fév.',amount:657.73,date:'2026-02-05',paidby:'compte',notes:''},
-  {id:7,type:'Crédit immobilier',label:'Crédit — Mars',amount:657.73,date:'2026-03-05',paidby:'compte',notes:''},
-  {id:8,type:'Crédit immobilier',label:'Crédit — Avr.',amount:657.73,date:'2026-04-05',paidby:'compte',notes:''},
-  {id:9,type:'Assurance',label:'Assurance — Janv.',amount:45.56,date:'2026-01-05',paidby:'compte',notes:''},
-  {id:10,type:'Assurance',label:'Assurance — Fév.',amount:45.56,date:'2026-02-05',paidby:'compte',notes:''},
-  {id:11,type:'Assurance',label:'Assurance — Mars',amount:45.56,date:'2026-03-05',paidby:'compte',notes:''},
-  {id:12,type:'Assurance',label:'Assurance — Avr.',amount:45.56,date:'2026-04-05',paidby:'compte',notes:''},
-  {id:13,type:'Frais bancaires',label:'Frais bancaires — Janv.',amount:12,date:'2026-01-05',paidby:'compte',notes:''},
-  {id:14,type:'Frais bancaires',label:'Frais bancaires — Fév.',amount:12,date:'2026-02-05',paidby:'compte',notes:''},
-  {id:15,type:'Frais bancaires',label:'Frais bancaires — Mars',amount:12,date:'2026-03-05',paidby:'compte',notes:''},
-  {id:16,type:'Frais bancaires',label:'Frais bancaires — Avr.',amount:12,date:'2026-04-05',paidby:'compte',notes:''},
-  {id:17,type:'Entretien',label:'Révision chaudière',amount:180,date:'2026-03-10',paidby:'Manu',notes:'Plombier Vosges'},
-  {id:18,type:'Autre',label:'Linge de lit x4',amount:220,date:'2026-04-02',paidby:'Julien',notes:''},
-];
-
-let apports = [
-  {id:1,owner:'Jérémy',amount:250,date:'2026-01-01',type:'mensualité',notes:'Mensualité janvier'},
-  {id:2,owner:'Julien',amount:250,date:'2026-01-01',type:'mensualité',notes:'Mensualité janvier'},
-  {id:3,owner:'Manu',amount:250,date:'2026-01-01',type:'mensualité',notes:'Mensualité janvier'},
-  {id:4,owner:'Jérémy',amount:250,date:'2026-02-01',type:'mensualité',notes:'Mensualité février'},
-  {id:5,owner:'Julien',amount:250,date:'2026-02-01',type:'mensualité',notes:'Mensualité février'},
-  {id:6,owner:'Manu',amount:250,date:'2026-02-01',type:'mensualité',notes:'Mensualité février'},
-  {id:7,owner:'Jérémy',amount:250,date:'2026-03-01',type:'mensualité',notes:'Mensualité mars'},
-  {id:8,owner:'Julien',amount:250,date:'2026-03-01',type:'mensualité',notes:'Mensualité mars'},
-  {id:9,owner:'Manu',amount:250,date:'2026-03-01',type:'mensualité',notes:'Mensualité mars'},
-  {id:10,owner:'Jérémy',amount:250,date:'2026-04-01',type:'mensualité',notes:'Mensualité avril'},
-  {id:11,owner:'Julien',amount:250,date:'2026-04-01',type:'mensualité',notes:'Mensualité avril'},
-  {id:12,owner:'Manu',amount:250,date:'2026-04-01',type:'mensualité',notes:'Mensualité avril'},
-  {id:13,owner:'Julien',amount:45,date:'2026-02-18',type:'supplément',notes:'Remboursement conso élec séjour fév.'},
-];
+// ===== DONNÉES (vides par défaut, remplies depuis localStorage) =====
+let sejours = [];
+let charges = [];
+let apports = [];
 
 let currentMonth = new Date(2026,3,1); // avril 2026 (mois en cours)
 const CURRENT_YEAR = new Date().getFullYear();
@@ -677,8 +661,8 @@ function markElecRemb(id) {
   if(!s)return;
   if(!confirm(`Confirmer le remboursement de ${s.elec.toFixed(2)} € par ${s.owner==='location'?s.tenant:s.owner} ?`))return;
   s.elec_status='remboursé';
-  // On ajoute un apport au compte
   apports.push({id:Date.now(),owner:s.owner!=='location'?s.owner:'Compte',amount:s.elec,date:new Date().toISOString().split('T')[0],type:'supplément',notes:`Remboursement conso élec séjour ${fmtDate(s.checkin)}`});
+  LS.save();
   renderDashboard();
 }
 
@@ -804,7 +788,7 @@ function renderCharges() {
     </div>`).join('');
 }
 function filterChgType(v){chg_type_filter=v;renderCharges();}
-function delCharge(id){if(!confirm('Supprimer ?'))return;charges=charges.filter(c=>c.id!==id);renderCharges();}
+function delCharge(id){if(!confirm('Supprimer ?'))return;charges=charges.filter(c=>c.id!==id);LS.save();renderCharges();}
 
 // ===== BILAN =====
 function renderBilan() {
@@ -921,7 +905,7 @@ function saveSejour() {
   const elec=parseFloat(document.getElementById('f-elec').value)||0;
   const s={id:editingSejId||Date.now(),owner:document.getElementById('f-owner').value,tenant:document.getElementById('f-tenant').value,checkin:ci,checkout:co,guests,notes:document.getElementById('f-notes').value,elec,elec_status:document.getElementById('f-elec-status').value};
   if(editingSejId){const idx=sejours.findIndex(x=>x.id===editingSejId);if(idx>-1)sejours[idx]=s;}else sejours.push(s);
-  closeModal('modal-sej');renderDashboard();renderSejours();
+  LS.save();closeModal('modal-sej');renderDashboard();renderSejours();
 }
 
 function openModalCharge(type) {
@@ -937,7 +921,7 @@ function saveCharge() {
   const label=document.getElementById('c-lbl').value.trim();
   if(!label||isNaN(amount)||amount<=0){alert('Libellé et montant requis.');return;}
   charges.push({id:Date.now(),type:document.getElementById('c-type').value,label,amount,date:document.getElementById('c-date').value,paidby:document.getElementById('c-paidby').value,notes:document.getElementById('c-notes').value});
-  closeModal('modal-chg');renderCharges();renderTreso();
+  LS.save();closeModal('modal-chg');renderCharges();renderTreso();
 }
 
 function openModalApport() {
@@ -952,7 +936,7 @@ function saveApport() {
   const amt=parseFloat(document.getElementById('ap-amt').value);
   if(isNaN(amt)||amt<=0){alert('Montant requis.');return;}
   apports.push({id:Date.now(),owner:document.getElementById('ap-owner').value,amount:amt,date:document.getElementById('ap-date').value,type:document.getElementById('ap-type').value,notes:document.getElementById('ap-notes').value});
-  closeModal('modal-apport');renderTreso();renderDashboard();
+  LS.save();closeModal('modal-apport');renderTreso();renderDashboard();
 }
 
 function openDetail(id) {
@@ -998,7 +982,7 @@ function openDetail(id) {
   `;
   document.getElementById('modal-detail').classList.add('open');
 }
-function delSejour(){if(!confirm('Supprimer ce séjour ?'))return;sejours=sejours.filter(s=>s.id!==currentDetId);closeModal('modal-detail');renderDashboard();renderSejours();}
+function delSejour(){if(!confirm('Supprimer ce séjour ?'))return;sejours=sejours.filter(s=>s.id!==currentDetId);LS.save();closeModal('modal-detail');renderDashboard();renderSejours();}
 function editSejour(){
   const s=sejours.find(x=>x.id===currentDetId);if(!s)return;
   closeModal('modal-detail');editingSejId=s.id;
@@ -1024,9 +1008,58 @@ function fmtDate(s){if(!s)return'—';const d=new Date(s);return`${d.getDate()} 
 function typeIcon(t){return{Électricité:'⚡',Eau:'💧',Entretien:'🔧','Crédit immobilier':'🏦',Assurance:'🛡','Frais bancaires':'💳',Autre:'📋'}[t]||'📋';}
 function ownerScClass(o){return{Jérémy:'sc-j',Julien:'sc-u',Manu:'sc-m'}[o]||'';}
 
+// ===== SETTINGS =====
+function renderSettings() {
+  document.getElementById('settings-form').innerHTML=`
+    <div class="setting-row">
+      <div><div class="setting-lbl">Mensualité par propriétaire</div><div class="setting-desc">Contribution mensuelle fixe de chacun au compte commun</div></div>
+      <input class="setting-input" type="number" value="${cfg.mensualite_proprietaire}" step="10" onchange="cfg.mensualite_proprietaire=+this.value">
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Mensualité EDF (prélèvement)</div><div class="setting-desc">Montant prélevé mensuellement par EDF</div></div>
+      <input class="setting-input" type="number" value="${cfg.mensualite_edf}" step="5" onchange="cfg.mensualite_edf=+this.value">
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Crédit immobilier mensuel</div><div class="setting-desc">Remboursement mensuel du crédit</div></div>
+      <input class="setting-input" type="number" value="${cfg.credit_immo}" step="0.01" onchange="cfg.credit_immo=+this.value">
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Assurance mensuelle</div><div class="setting-desc">Prime d'assurance mensuelle</div></div>
+      <input class="setting-input" type="number" value="${cfg.assurance}" step="0.01" onchange="cfg.assurance=+this.value">
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Frais bancaires mensuels</div><div class="setting-desc">Frais de tenue de compte</div></div>
+      <input class="setting-input" type="number" value="${cfg.frais_bancaires}" step="0.50" onchange="cfg.frais_bancaires=+this.value">
+    </div>
+    <div class="setting-row">
+      <div><div class="setting-lbl">Solde initial du compte</div><div class="setting-desc">Solde de départ (si compte déjà ouvert)</div></div>
+      <input class="setting-input" type="number" value="${cfg.solde_initial}" step="10" onchange="cfg.solde_initial=+this.value">
+    </div>
+    <div style="margin-top:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;">
+      <button class="btn btn-del btn-sm" onclick="resetAllData()">🗑 Réinitialiser toutes les données</button>
+      <button class="btn btn-primary" onclick="LS.save();showToast('Paramètres sauvegardés ✓')">Sauvegarder</button>
+    </div>
+    <div style="margin-top:12px;padding:10px 12px;background:var(--surf2);border-radius:8px;font-size:12px;color:var(--tx3);">
+      💾 Les données sont sauvegardées automatiquement dans ce navigateur (localStorage). Elles persistent entre les sessions sur cet appareil.
+    </div>
+  `;
+}
+
+function resetAllData() {
+  if(!confirm('⚠️ Supprimer toutes les données et repartir de zéro ? Cette action est irréversible.')) return;
+  LS.clear();
+  location.reload();
+}
+
+function showToast(msg) {
+  let t = document.getElementById('toast');
+  if(!t){t=document.createElement('div');t.id='toast';t.style.cssText='position:fixed;bottom:24px;right:24px;background:#1A1916;color:#fff;padding:10px 16px;border-radius:9px;font-size:13px;font-weight:500;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;';document.body.appendChild(t);}
+  t.textContent=msg;t.style.opacity='1';
+  clearTimeout(t._timer);t._timer=setTimeout(()=>t.style.opacity='0',2500);
+}
+
 // ===== INIT =====
 function populateYearSelectors() {
-  // Collecter toutes les années présentes dans les données + année courante + 2 suivantes
   const yearsInData = new Set();
   sejours.forEach(s => yearsInData.add(s.checkin.substring(0,4)));
   charges.forEach(c => yearsInData.add(c.date.substring(0,4)));
@@ -1041,6 +1074,8 @@ function populateYearSelectors() {
   });
 }
 
+// Charger les données sauvegardées (écrase les données démo si localStorage présent)
+LS.load();
 populateYearSelectors();
 renderDashboard();
 </script>
